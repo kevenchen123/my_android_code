@@ -1,0 +1,41 @@
+apply plugin: 'com.android.library'
+apply plugin: "com.mobbeel.plugin"
+
+android {
+    compileSdkVersion 26
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    compile project(':fataarinner')
+    api project(':fataarinner')
+
+    compile 'com.android.support:appcompat-v7:26.1.0'
+
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.9'
+}
+
+fatAARConfig {
+    includeAllInnerDependencies true  // It's false for default
+}

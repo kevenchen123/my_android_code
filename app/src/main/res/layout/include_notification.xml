@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/simple_notification"
+        android:text="Simple notification"
+        style="@style/buttonStyle"/>
+
+    <Button
+        android:id="@+id/big_notification"
+        android:text="Expandable with buttons"
+        style="@style/buttonStyle"/>
+
+    <Button
+        android:id="@+id/progress_notification"
+        android:text="Progress notification"
+        style="@style/buttonStyle"/>
+
+    <Button
+        android:id="@+id/button_notifcation"
+        android:text="Button notification"
+        style="@style/buttonStyle"/>
+
+</LinearLayout>

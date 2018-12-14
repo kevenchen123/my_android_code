@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>
+        WebImageView
+    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+    <meta name="description" content="use webview to show image, reduce use memory on java heap">
+    <meta name="author" content="keven chen & junyi zhang">
+    <style type="text/css">
+        html {
+            margin : 0;
+            padding : 0;
+        }
+        body {
+            padding : 0;
+            margin : 0;
+            text-align : center;
+            background-color : #ffff00;//transparent;
+            //background-image : url(http://www.wzfzl.com.cn/upimg/allimg/090625/0631493.jpg);
+        }
+        .wrap-to-center {
+            position: fixed; top:0px; left:0px; bottom:0px; right:0px;  // set dive size equal to body
+            //overflow: scroll;
+            background-color : #ff0000;//transparent;
+        }
+        .img-responsive {
+            width : auto;
+            height : auto;
+            padding : 0;
+            margin : 0 0 -1% 0;    // there is default margin in bottom, after enlarge image it will be obvious
+        }
+        .img-wh-center {
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .img-width-center {
+            display: block;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0%);
+        }
+        .img-height-center {
+            display: block;
+            position: absolute;
+            top: 50%;
+            transform: translate(0%, -50%);
+        }
+    </style>
+    <script>
+           /* This function is invoked by android */
+           function changeMaxScale(size) {
+                alert("changeMaxScale="+size);
+
+                var metaArray = document.getElementsByName('viewport');
+                if (metaArray.length > 0) {
+                    metaArray[0].content = "width=device-width, height=device-height, initial-scale=1.0,minimum-scale=0.1, maximum-scale=" +size+ ".0, minimal-ui";
+                    alert("viewport="+metaArray[0].content);
+                }
+           }
+
+           /* This function is invoked by android */
+           function changeImageSize(width, height, allowScroll) {
+                alert("changeImageSize="+width+","+height+","+allowScroll);
+
+                var images = document.getElementsByTagName('img');
+                if (images.length > 0) {
+                     images[0].style.width = width / window.devicePixelRatio + 'px';
+                     images[0].style.height = height / window.devicePixelRatio + 'px';
+                }
+
+                var divs = document.getElementsByTagName('div');
+                if (divs.length > 0) {
+                    alert("scroll Image "+divs[0].scrollWidth+","+divs[0].scrollHeight+" / "+divs[0].clientWidth+","+divs[0].clientHeight);
+
+                    if (allowScroll) {
+                        divs[0].style.overflow = 'scroll';
+                        divs[0].onscroll = function() {
+                             alert("scroll Image >>>>>>>>>>>>>>>>"+divs[0].scrollLeft+" / "+divs[0].scrollTop);
+                             androidObject.onScroll(divs[0].scrollLeft < 3, divs[0].scrollLeft > (divs[0].scrollWidth - divs[0].clientWidth) - 3,
+                                                                      divs[0].scrollTop < 3, divs[0].scrollTop > (divs[0].scrollHeight - divs[0].clientHeight) - 3);
+                        };
+
+                        if (divs[0].scrollWidth <= divs[0].clientWidth && divs[0].scrollHeight <= divs[0].clientHeight) {
+                            images[0].classList.add("img-wh-center");
+                            androidObject.onScroll(true, true, true, true);
+                        }
+                         else if (divs[0].scrollWidth <= divs[0].clientWidth) {
+                            images[0].classList.add("img-width-center");
+                            divs[0].scrollTop = (divs[0].scrollHeight - divs[0].clientHeight) / 2;
+                        }
+                         else if (divs[0].scrollHeight <= divs[0].clientHeight) {
+                            images[0].classList.add("img-height-center");
+                            divs[0].scrollLeft = (divs[0].scrollWidth - divs[0].clientWidth) / 2;
+                        }
+                         else {
+                            divs[0].scrollLeft = (divs[0].scrollWidth - divs[0].clientWidth) / 2;
+                            divs[0].scrollTop = (divs[0].scrollHeight - divs[0].clientHeight) / 2;
+                        }
+                    } else {
+                        images[0].classList.add("img-wh-center");
+                        androidObject.onScroll(true, true, true, true);
+                    }
+                }
+           }
+
+           function FitImagesToScreen() {
+                var images = document.getElementsByTagName('img');
+                if (images.length > 0) {
+                     androidObject.measureImage(images[0].width, images[0].height);
+                }
+            }
+    </script>
+</head>
+<body onload='FitImagesToScreen()'>
+    <div class="wrap-to-center">
