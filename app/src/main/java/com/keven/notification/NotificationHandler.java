@@ -5,10 +5,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 import com.keven.api.AndroidApiActivity;
@@ -20,6 +22,7 @@ public class NotificationHandler {
     // Notification handler singleton
     private static NotificationHandler nHandler;
     private static NotificationManager mNotificationManager;
+    private static String channelID = "notify_001";
 
     private NotificationHandler() {
     }
@@ -33,6 +36,12 @@ public class NotificationHandler {
         if (nHandler == null) {
             nHandler = new NotificationHandler();
             mNotificationManager = (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel(channelID, "Channel human readable title",
+                        NotificationManager.IMPORTANCE_HIGH);
+                mNotificationManager.createNotificationChannel(channel);
+            }
         }
         return nHandler;
     }
@@ -55,17 +64,15 @@ public class NotificationHandler {
         PendingIntent resultPending = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Building the notification
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelID)
+                .setVibrate(new long[]{100, 250})
+                .setLights(Color.YELLOW, 500, 5000)
+                .setAutoCancel(true)
+                .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setSmallIcon(R.mipmap.ic_launcher) // notification icon
                 .setContentTitle("I'm a simple notification") // main title of the notification
                 .setContentText("I'm the text of the simple notification") // notification text
                 .setContentIntent(resultPending); // notification intent
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("notify_001", "Channel human readable title",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            mNotificationManager.createNotificationChannel(channel);
-        }
 
         // mId allows you to update the notification later on.
         mNotificationManager.notify(10, mBuilder.build());
@@ -84,7 +91,7 @@ public class NotificationHandler {
             }
 
             // Building the notification
-            NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context)
+            NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context, channelID)
                     .setSmallIcon(R.mipmap.ic_launcher) // notification icon
                     .setContentTitle("Expandable notification") // title of notification
                     .setContentText("This is an example of an expandable notification") // text inside the notification
@@ -107,7 +114,7 @@ public class NotificationHandler {
         final int progresID = new Random().nextInt(1000);
 
         // building the notification
-        final NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context)
+        final NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context, channelID)
                 .setSmallIcon(R.drawable.slot_01)
                 .setContentTitle("Progres notification")
                 .setContentText("Now waiting")
@@ -172,7 +179,7 @@ public class NotificationHandler {
             PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
             // Building the notifcation
-            NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context)
+            NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context, channelID)
                     .setSmallIcon(R.mipmap.ic_launcher) // notification icon
                     .setContentTitle("Button notification") // notification title
                     .setContentText("Expand to show the buttons...") // content text

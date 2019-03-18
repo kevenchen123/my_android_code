@@ -11,23 +11,18 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import org.json.JSONException;
 import org.json.JSONObject;
+import javax.inject.Inject;
+
+import okhttp3.ResponseBody;
 import rx.Observable;
 
 
 public class DataService {
 
     private static final String CONTENT_TYPE_JSON = "application/json";
-    private static final String PLATFORM = "android";
-
     private static DataService sInstance;
+    @Inject ApiClient mApiClient;
 
-    private String mHost;
-    private ApiService mApiService;
-    private Context mContext;
-
-    private DataService(Context context) {
-        mContext = context;
-    }
 
     public static DataService getInstance(Context context) {
         if (sInstance == null) {
@@ -36,11 +31,10 @@ public class DataService {
         return sInstance;
     }
 
-    public ApiService getApiService() {
-        if (mApiService == null) {
-            mApiService = new ApiService();
-        }
-        return mApiService;
+    private DataService(Context context) {
+        DaggerApiComponent.builder()
+                .constantModule(new ConstantModule(context))
+                .build().inject(this);
     }
 
     private String buildJsonQueryParams(Map<String, String> params) {
@@ -67,13 +61,23 @@ public class DataService {
         return resultObject.toString();
     }
 
+
+    /* xijinfa api */
     public Observable<Object> login(String data) {
         Log.d("TAG", "params : " + data);
         Map<String, String> queryMap = new HashMap<>();
         queryMap.put("appPackage", "com.ecarobo.android");
         queryMap.put("versionNum", "0");
         String queryJson = buildJsonQueryParams(queryMap);
-        return getApiService().getApiClient()
-            .login(RequestBody.create(MediaType.parse(CONTENT_TYPE_JSON), queryJson));
+        return mApiClient.login(RequestBody.create(MediaType.parse(CONTENT_TYPE_JSON), queryJson));
+    }
+
+    /* github api */
+    public Observable<UserResponse> getUser(String username) {
+        return mApiClient.getUser(username);
+    }
+
+    public Observable<ResponseBody> getbaidu() {
+        return mApiClient.getbaidu();
     }
 }

@@ -21,6 +21,7 @@ import com.keven.nexus_httpserver.NexusTestActivity;
 import com.keven.scrollpicker.ScrollpickerActivity;
 import com.keven.touchevent.TouchEventActivity;
 import com.keven.webview.WebActivity;
+import com.keven.widget.WidgetTestActivity;
 
 
 public class ApiDemos extends ListActivity {
@@ -29,10 +30,11 @@ public class ApiDemos extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String nameData[ ]={"SystemAPI", "RsaEncrypt", "FragmentPager", "TouchEvent", "DragWindow"
+        String nameData[ ]={"SystemAPI", "Widget", "RsaEncrypt", "FragmentPager", "TouchEvent", "DragWindow"
                 , "ScrollPicker", "Nexus & HttpServer", "Slidr", "WebView"};
         Intent intentData[ ]={
                 new Intent(this, AndroidApiActivity.class),
+                new Intent(this, WidgetTestActivity.class),
                 new Intent(this, EncryptActivity.class),
                 new Intent(this, FragmentPagerActivity.class),
                 new Intent(this, TouchEventActivity.class),

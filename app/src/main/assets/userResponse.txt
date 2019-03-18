@@ -1,0 +1,21 @@
+{
+    "Header": {
+        "Code": 200,
+        "Message": "Success"
+    },
+    "Body": {
+        "id": -1234,
+        "type": "User",
+        "name": "Mock keven chen",
+        "following": 0,
+
+        "contact" : [
+            {"phone": {
+                "number": [13524573505, 1234567890]
+            }},
+            {"phone": {
+                "number": [123, 456]
+            }}
+        ]
+    }
+}

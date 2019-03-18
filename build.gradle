@@ -7,14 +7,24 @@ buildscript {
         jcenter()
         mavenCentral()
 
-        maven { url "https://plugins.gradle.org/m2/" }  // fataar
+        // fataar
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+        // realm db
         classpath "io.realm:realm-gradle-plugin:2.2.1"
-
+        // fataar
         classpath "gradle.plugin.com.mobbeel.plugin:mobbeel-fataar:1.2.0"
+        // bintray
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        // jacoco
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
+        // spoon
+        classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.0.2'
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -24,11 +34,37 @@ allprojects {
     repositories {
         google()
         jcenter()
-        mavenCentral()
+
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url "https://jitpack.io" }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+
+//-------------------------------------------------------
+
+ext.isCi = "true" == System.getenv("CI")
+
+if (isCi) {
+    println 'Running on CI. Adding task to start emulator.'
+
+    task startEmulator << {
+        "$rootDir/gradle/start-emulator.sh".execute().waitFor()
+    }
+
+    subprojects {
+        afterEvaluate { Project project ->
+            project.android.testVariants.all { variant ->
+                variant.connectedInstrumentTest.dependsOn startEmulator
+            }
+
+            project.android.dexOptions {
+                preDexLibraries = false
+            }
+        }
+    }
 }

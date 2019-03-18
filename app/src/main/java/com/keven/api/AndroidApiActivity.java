@@ -6,13 +6,25 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
+import com.jakewharton.rxbinding.view.RxView;
+import com.tbruyelle.rxpermissions.RxPermissions;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.ResponseBody;
+import rx.functions.Action1;
 
 import com.keven.R;
-import com.tbruyelle.rxpermissions.RxPermissions;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import java.util.List;
-
+import com.keven.retrofit.UserResponse;
+import com.keven.retrofit.subscribers.ProgressSubscriber;
+import com.keven.retrofit.subscribers.SubscriberOnNextListener;
+import com.keven.utils.AndroidComponentUtil;
+import com.keven.utils.SchedulerProvider;
 import com.keven.retrofit.DataService;
 import com.keven.notification.NotificationHandler;
 import com.cwj.fataar.Test;
@@ -27,12 +39,30 @@ public class AndroidApiActivity extends AppCompatActivity implements View.OnClic
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         testNotification();
+        testAMS();
+        setClick();
     }
 
     @Override
     public boolean onSupportNavigateUp(){
         finish();
         return true;
+    }
+
+    //--------------------------------------------------------------
+
+    private ArrayList<AndroidComponentUtil.RecentTag> mTasks;
+
+    private void testAMS() {
+        mTasks = AndroidComponentUtil.getRecentTask(this, 6);
+        AndroidComponentUtil.getRunningTask(this);
+    }
+
+    private void removeTask() {
+        if (mTasks.size() > 0 && mTasks.get(0) != null) {
+            AndroidComponentUtil.removeTask(this, mTasks.get(0).info.id);
+            mTasks.remove(0);
+        }
     }
 
     //--------------------------------------------------------------
@@ -46,6 +76,18 @@ public class AndroidApiActivity extends AppCompatActivity implements View.OnClic
         findViewById(R.id.big_notification).setOnClickListener(this);
         findViewById(R.id.progress_notification).setOnClickListener(this);
         findViewById(R.id.button_notifcation).setOnClickListener(this);
+    }
+
+    private void setClick() {
+        //有点 ： 防暴力点击的
+        RxView.clicks(findViewById(R.id.button_fataar))
+                .throttleFirst(3000, TimeUnit.MILLISECONDS) // 设置防抖间隔为 3000ms
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        testFatAar();
+                    }
+                });
     }
 
     @Override
@@ -62,14 +104,18 @@ public class AndroidApiActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.button_notifcation:
                 nHandler.createButtonNotification(this);
+                break;
+            case R.id.remove_task:
+                removeTask();
+                break;
             case R.id.button_sms:
                 testSms();
                 break;
-            case R.id.button_fataar:
-                testFatAar();
-                break;
             case R.id.button_retrofit:
                 testRetrofit();
+                break;
+            case R.id.button_activity_info:
+                testFilterActivity();
                 break;
         }
     }
@@ -103,11 +149,37 @@ public class AndroidApiActivity extends AppCompatActivity implements View.OnClic
     //--------------------------------------------------------------
 
     private void testRetrofit() {
-        DataService.getInstance(AndroidApiActivity.this).login("hello_rsa")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        /*github api*/
+        DataService.getInstance(AndroidApiActivity.this).getUser("kevenchen123")
+                .compose(SchedulerProvider.DEFAULTTREADPOOL.applySchedulers())
                 .subscribe(
-                        result -> {  },
-                        error -> {  });
+                        new ProgressSubscriber(new SubscriberOnNextListener<UserResponse>() {
+                            @Override
+                            public void onNext(UserResponse result) {
+                                Toast.makeText(AndroidApiActivity.this, result.name + result.id + result.contact, Toast.LENGTH_LONG).show();
+                            }
+                        }, this));
+
+        DataService.getInstance(AndroidApiActivity.this).getbaidu()
+                .compose(SchedulerProvider.DEFAULT.applySchedulers())
+                .subscribe(
+                        new ProgressSubscriber(new SubscriberOnNextListener<ResponseBody>() {
+                            @Override
+                            public void onNext(ResponseBody result) {
+                                try {
+                                    Toast.makeText(AndroidApiActivity.this, result.string(), Toast.LENGTH_LONG).show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, this));
+    }
+
+    //--------------------------------------------------------------
+
+    private void testFilterActivity() {
+        startActivity(
+                AndroidComponentUtil.filterActivity(this, getApplicationContext().getPackageName())
+                    .get("Slidr"));
     }
 }

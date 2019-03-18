@@ -3,15 +3,16 @@ package com.keven.dragwindow;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 
 public class DragView extends RelativeLayout {
-
     private Context context;
     private WindowManager wm;
     private WindowManager.LayoutParams params;
@@ -39,19 +40,34 @@ public class DragView extends RelativeLayout {
 
         wm = (WindowManager) context.getSystemService(Application.WINDOW_SERVICE);
         params = new WindowManager.LayoutParams();
-        params.gravity = Gravity.LEFT | Gravity.TOP;
         params.x = 0;
         params.y = 0;
         params.width = w;
         params.height = h;
-        params.type = WindowManager.LayoutParams.TYPE_APPLICATION;
-        params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        params.gravity = Gravity.LEFT | Gravity.TOP;
+
+        params.type = //WindowManager.LayoutParams.TYPE_APPLICATION;
+                                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;   //设置window type
+
+        params.format= PixelFormat.TRANSLUCENT;   //设置图片格式，效果为背景透明
+                                 //PixelFormat.RGBA_8888;
+
+        params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL  //不阻塞事件传递到后面的窗口
+                                | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                                //| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE   //弹出的View收不到Back键的事件
+                                | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;     //可以拖出Activity的窗口
+                                //| WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM;
+                                //| LayoutParams.FLAG_NOT_TOUCHABLE;  //属性的效果形同“锁定”。悬浮窗不可触摸，不接受任何事件,同时不影响后面的事件响应。
         wm.addView(this, params);
     }
 
+    public void destroy() {
+        wm.removeView(this);
+    }
+
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return true;
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        return false;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -63,6 +79,9 @@ public class DragView extends RelativeLayout {
         } else {
             move(event);
         }
+        if (event.getAction() == MotionEvent.ACTION_OUTSIDE ) {
+            Toast.makeText(context, "["+(int)event.getRawX()+"#"+(int)event.getRawY()+"]", Toast.LENGTH_LONG).show();
+        }
         return super.onTouchEvent(event);
     }
 
@@ -71,9 +90,9 @@ public class DragView extends RelativeLayout {
         endPoint.y = event.getRawY();
         AccuratePoint end = getAccuratePoint(startPoint, endPoint);
         if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            if (check(end)) {
+            //if (check(end)) {
                 updateViewLayout(end);
-            }
+            //}
         }
         if (event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP) {
             animate(end);

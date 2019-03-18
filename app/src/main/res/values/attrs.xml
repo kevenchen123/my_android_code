@@ -173,4 +173,13 @@
         <attr name="sel_background_ripple_mask_corner_bottomRight" format="dimension"/>
     </declare-styleable>
 
+
+    <declare-styleable name="CircleProgressButton">
+        <attr name="circle_back_color" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="ViewPagerIndicator">
+        <attr name="item_count" />
+        <attr name="item_magnification" />
+    </declare-styleable>
 </resources>

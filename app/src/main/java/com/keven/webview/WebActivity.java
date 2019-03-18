@@ -162,6 +162,10 @@ public class WebActivity extends AppCompatActivity implements View.OnClickListen
             }
             return false;
         }
+
+        @Override
+        public void onPageFinished(WebView view, String page) {
+        }
     }
 
 

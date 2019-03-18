@@ -1,0 +1,23 @@
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'android-mvvm'
+
+    publishedGroupId = 'com.manaschaudhari.android-mvvm'
+    libraryName = 'Android MVVM'
+
+    libraryDescription = 'MVVM on Android using RxJava and Data Binding'
+
+    siteUrl = 'https://github.com/manas-chaudhari/android-mvvm'
+    gitUrl = 'https://github.com/manas-chaudhari/android-mvvm.git'
+
+    libraryVersion = '0.2.2-SNAPSHOT'
+
+    developerId = 'manas-chaudhari'
+    developerName = 'Manas Chaudhari'
+    developerEmail = 'chaudhari.manas@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
