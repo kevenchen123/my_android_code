@@ -10,6 +10,7 @@ import com.orhanobut.logger.Logger;
 public class App extends Application {
 
     private static Context mContext;
+    public static String accessToken = "";
 
     @Override
     public void onCreate() {

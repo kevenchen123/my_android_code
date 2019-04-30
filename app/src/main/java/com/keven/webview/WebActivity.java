@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.webkit.GeolocationPermissions;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -213,6 +214,12 @@ public class WebActivity extends AppCompatActivity implements View.OnClickListen
                 }
             });
             mProgressBar.startAnimation(alphaAnimation);
+        }
+
+        @Override
+        public void onGeolocationPermissionsShowPrompt(String origin,GeolocationPermissions.Callback callback) {
+            callback.invoke(origin, true, false);
+            super.onGeolocationPermissionsShowPrompt(origin,callback);
         }
     }
 }

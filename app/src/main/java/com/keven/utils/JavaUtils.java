@@ -1,7 +1,16 @@
 package com.keven.utils;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
+import java.io.StringReader;
 import java.math.BigDecimal;
 import java.util.UUID;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 public class JavaUtils {
 
@@ -22,5 +31,24 @@ public class JavaUtils {
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
         return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
+
+    private static String getItemOfXml(String xml, String tagName) {
+        try {
+            StringReader sr = new StringReader(xml);
+            InputSource is = new InputSource(sr);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(is);
+
+            NodeList resultList = doc.getElementsByTagName(tagName);
+            if (resultList != null && resultList.getLength() > 0) {
+                Node resultEle = resultList.item(0);
+                return resultEle.getTextContent();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

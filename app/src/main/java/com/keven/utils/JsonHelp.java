@@ -102,7 +102,13 @@ public class JsonHelp {
                     JsonElement je = mapset.getValue();
                     if (custom(mapset.getKey(), je, response)) continue;
 
-                    Field field = typeParameterClass.getField(mapset.getKey());
+                    Field field;
+                    try {
+                        field = typeParameterClass.getDeclaredField(mapset.getKey());
+                    } catch (NoSuchFieldException e) {
+                        continue;
+                    }
+                    field.setAccessible(true);
                     Log.e("TAG", "deserialize : " + mapset.getKey() + "     " + je.getClass() + "     " + field.getType());
 
                     if (je.isJsonPrimitive()) {

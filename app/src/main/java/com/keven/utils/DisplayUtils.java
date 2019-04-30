@@ -25,6 +25,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class DisplayUtils {
 
@@ -83,6 +84,40 @@ public class DisplayUtils {
         return realSize.y - size.y;
     }
 
+    // 获取虚拟按键的高度
+    public static int getNavigationBarHeight(Context context) {
+        int navigationBarHeight = 0;
+        Resources rs = context.getResources();
+        int id = rs.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (id > 0 && checkDeviceHasNavigationBar(context)) {
+            navigationBarHeight = rs.getDimensionPixelSize(id);
+        }
+        return navigationBarHeight;
+    }
+
+    // 是否开启了虚拟按键
+    private static boolean checkDeviceHasNavigationBar(Context context) {
+        boolean hasNavigationBar = false;
+        Resources rs = context.getResources();
+        int id = rs.getIdentifier("config_showNavigationBar", "bool", "android");
+        if (id > 0) {
+            hasNavigationBar = rs.getBoolean(id);
+        }
+        try {
+            Class systemPropertiesClass = Class.forName("android.os.SystemProperties");
+            Method m = systemPropertiesClass.getMethod("get", String.class);
+            String navBarOverride = (String) m.invoke(systemPropertiesClass, "qemu.hw.mainkeys");
+            if ("1".equals(navBarOverride)) {
+                hasNavigationBar = false;
+            } else if ("0".equals(navBarOverride)) {
+                hasNavigationBar = true;
+            }
+        } catch (Exception e) {
+        }
+        return hasNavigationBar;
+    }
+
+
     //状态栏
     public static void setStatusBar(Activity activity, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
@@ -115,6 +150,13 @@ public class DisplayUtils {
         }
         return sbar;
     }
+
+    public static void systemUIVisible(View view) {
+        view.setOnSystemUiVisibilityChangeListener(visibility -> {
+            boolean systemUiVisible = (visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0;
+        });
+    }
+
 
     //设置Editetxt Hint 文字大小
     public static void setHint(EditText editText, String hint, int fontSize) {

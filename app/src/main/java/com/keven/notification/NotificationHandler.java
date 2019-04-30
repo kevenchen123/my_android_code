@@ -11,6 +11,7 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.keven.api.AndroidApiActivity;
@@ -191,5 +192,17 @@ public class NotificationHandler {
         } else {
             Toast.makeText(context, "You need a higher version", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void createRemoteViewNotification(Context context, String packagename) {
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelID);
+        RemoteViews myNotificationView = new RemoteViews(packagename, R.layout.customer_notification_view);
+        myNotificationView.setTextViewText(R.id.notification_title, "title善良劫匪");
+        myNotificationView.setTextViewText(R.id.tv_content, "深咖啡了看司法还生来就发了所肩负的拉萨附近拉丝粉静安寺浪费精力萨福克就算了肯德基发上来是覅偶按时发货撒发神经啊发顺丰金卡卡萨菲尼克斯的积分卢卡斯解放路看见啊李师傅卡萨减肥法");
+        builder.setContent(myNotificationView)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setAutoCancel(true);
+        mNotificationManager.notify(1001, builder.build());
     }
 }

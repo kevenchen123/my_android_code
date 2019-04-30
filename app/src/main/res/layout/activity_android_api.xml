@@ -44,4 +44,11 @@
         android:onClick="onClick"
         style="@style/buttonStyle"/>
 
+    <Button
+        android:id="@+id/button_system_property"
+        android:text="System Property"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:onClick="onClick"
+        style="@style/buttonStyle"/>
+
 </LinearLayout>

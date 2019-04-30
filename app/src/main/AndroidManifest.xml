@@ -6,10 +6,12 @@
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".App"
@@ -47,6 +49,12 @@
 
         <activity android:name="com.keven.nexus_httpserver.NexusTestActivity"/>
 
+        <activity android:name="com.keven.qrcode.QRCodeScanActivity"/>
+
+        <activity android:name="com.keven.camera.CameraAlbumActivity"/>
+
+        <activity android:name="com.keven.graphiclock.GraphicLockActivity"/>
+
         <activity android:name="com.keven.animation.SlidrActivity"
             android:theme="@style/Slidable"
             android:label="Slidr">
@@ -62,6 +70,17 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="nosensor"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.keven.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
 

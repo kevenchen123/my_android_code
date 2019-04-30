@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
+import com.keven.utils.JavaUtils;
+import com.keven.utils.SystemPropertiesProxy;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.io.IOException;
@@ -44,7 +46,7 @@ public class AndroidApiActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         finish();
         return true;
     }
@@ -91,10 +93,10 @@ public class AndroidApiActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
-    public void onClick (View v) {
+    public void onClick(View v) {
         switch (v.getId()) {
             case R.id.simple_notification:
-                nHandler.createSimpleNotification(this);
+                nHandler.createRemoteViewNotification(this, this.getPackageName());
                 break;
             case R.id.big_notification:
                 nHandler.createExpandableNotification(this);
@@ -116,6 +118,9 @@ public class AndroidApiActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.button_activity_info:
                 testFilterActivity();
+                break;
+            case R.id.button_system_property:
+                testSystemProperty();
                 break;
         }
     }
@@ -143,7 +148,7 @@ public class AndroidApiActivity extends AppCompatActivity implements View.OnClic
 
     private void testFatAar() {
         Test.fun(this);
-        Log.d("TAG", "********** "+ Test.textaa );
+        Log.d("TAG", "********** " + Test.textaa);
     }
 
     //--------------------------------------------------------------
@@ -180,6 +185,12 @@ public class AndroidApiActivity extends AppCompatActivity implements View.OnClic
     private void testFilterActivity() {
         startActivity(
                 AndroidComponentUtil.filterActivity(this, getApplicationContext().getPackageName())
-                    .get("Slidr"));
+                        .get("Slidr"));
+    }
+
+    //--------------------------------------------------------------
+
+    private void testSystemProperty() {
+        Toast.makeText(AndroidApiActivity.this, SystemPropertiesProxy.get(this, "ro.build.version.release"), Toast.LENGTH_LONG).show();
     }
 }

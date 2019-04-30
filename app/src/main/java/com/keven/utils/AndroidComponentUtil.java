@@ -1,5 +1,6 @@
 package com.keven.utils;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.ComponentName;
@@ -11,16 +12,23 @@ import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.keven.utils.executor.BackgroundExecutor;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 public final class AndroidComponentUtil {
 
@@ -212,8 +220,72 @@ public final class AndroidComponentUtil {
         });
     }
 
+    /*
+     * 应用是否在前台
+     */
+    public static boolean isForeground(Context context) {
+        if (context != null) {
+            ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+            List<ActivityManager.RunningAppProcessInfo> processes = activityManager.getRunningAppProcesses();
+            for (ActivityManager.RunningAppProcessInfo processInfo : processes) {
+                if (processInfo.processName.equals(context.getPackageName())) {
+                    if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
     public static boolean isInstallPackage(String packageName) {
         return new File("/data/data/" + packageName).exists();
+    }
+
+    /*
+     * 拿property文件中参数
+     */
+    private String getProperty(Context context, int rawId, String propertyName) {
+        String result = "";
+        Properties properties = new Properties();
+        try {
+            InputStream inputStream = context.getResources().openRawResource(rawId);
+            properties.load(inputStream);
+            result = properties.getProperty(propertyName);
+            inputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private static String getSystemProperty(String propName) {
+        String line;
+        BufferedReader input = null;
+        try {
+            java.lang.Process p = Runtime.getRuntime().exec("getprop " + propName);
+            input = new BufferedReader(
+                    new InputStreamReader(p.getInputStream(), Charset.forName("UTF-8")), 1024);
+            line = input.readLine();
+            input.close();
+        } catch (IOException ex) {
+            return null;
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    Log.w("SystemProperty", e);
+                }
+            }
+        }
+        return line;
+    }
+
+    /*
+     * 是否是小米UI
+     */
+    public static boolean isMiUi() {
+        return !TextUtils.isEmpty(getSystemProperty("ro.miui.ui.version.name"));
     }
 }

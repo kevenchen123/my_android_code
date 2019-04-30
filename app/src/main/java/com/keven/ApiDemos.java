@@ -14,10 +14,13 @@ import java.util.Map;
 
 import com.keven.animation.SlidrActivity;
 import com.keven.api.AndroidApiActivity;
+import com.keven.camera.CameraAlbumActivity;
 import com.keven.dragwindow.DragWindowActivity;
 import com.keven.encrypt.EncryptActivity;
 import com.keven.frag.FragmentPagerActivity;
+import com.keven.graphiclock.GraphicLockActivity;
 import com.keven.nexus_httpserver.NexusTestActivity;
+import com.keven.qrcode.QRCodeScanActivity;
 import com.keven.scrollpicker.ScrollpickerActivity;
 import com.keven.touchevent.TouchEventActivity;
 import com.keven.webview.WebActivity;
@@ -31,7 +34,7 @@ public class ApiDemos extends ListActivity {
         super.onCreate(savedInstanceState);
 
         String nameData[ ]={"SystemAPI", "Widget", "RsaEncrypt", "FragmentPager", "TouchEvent", "DragWindow"
-                , "ScrollPicker", "Nexus & HttpServer", "Slidr", "WebView"};
+                , "ScrollPicker", "Nexus & HttpServer", "QRcode", "Camera & Album", "GraphicLock", "Slidr", "WebView"};
         Intent intentData[ ]={
                 new Intent(this, AndroidApiActivity.class),
                 new Intent(this, WidgetTestActivity.class),
@@ -41,8 +44,11 @@ public class ApiDemos extends ListActivity {
                 new Intent(this, DragWindowActivity.class),
                 new Intent(this, ScrollpickerActivity.class),
                 new Intent(this, NexusTestActivity.class),
+                new Intent(this, QRCodeScanActivity.class),
+                new Intent(this, CameraAlbumActivity.class),
+                new Intent(this, GraphicLockActivity.class),
                 new Intent(this, SlidrActivity.class),
-                WebActivity.getStartIntent(this, "hello", "http://www.bing.com") };
+                WebActivity.getStartIntent(this, "hello", "http://m.amap.com/"/*"http://www.bing.com"*/) };
 
         List<Map<String, Object>> myData = new ArrayList<>();
         for (int i = 0; i < nameData.length; i++) {

@@ -1,0 +1,33 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridView
+        android:id="@+id/album_grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="3"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:background="@color/colorPrimary"/>
+
+    <Button
+        android:id="@+id/button_camera"
+        android:layout_width="100dp"
+        android:text="拍摄照片"
+        android:layout_gravity="bottom|left"
+        android:onClick="onClick"
+        style="@style/buttonStyle"/>
+
+    <Button
+        android:id="@+id/button_album"
+        android:layout_width="100dp"
+        android:text="相册选取"
+        android:layout_gravity="bottom|right"
+        android:onClick="onClick"
+        style="@style/buttonStyle"/>
+
+</FrameLayout>
