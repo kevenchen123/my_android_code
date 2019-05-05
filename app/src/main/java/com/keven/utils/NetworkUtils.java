@@ -9,10 +9,31 @@ import java.net.UnknownHostException;
 
 public class NetworkUtils {
 
-    public static boolean isConnected(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+    public static final int NETTYPE_CMNET = 3;
+    public static final int NETTYPE_CMWAP = 2;
+    public static final int NETTYPE_WIFI = 1;
+
+    public static boolean isNetworkConnected(Context context) {
+        NetworkInfo activeNetworkInfo = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
+
+    public static int getNetworkType(Context context) {
+        NetworkInfo activeNetworkInfo = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+        int i = 0;
+        if (activeNetworkInfo == null) {
+            return 0;
+        }
+        int type = activeNetworkInfo.getType();
+        if (type == 0) {
+            String extraInfo = activeNetworkInfo.getExtraInfo();
+            if (extraInfo != null && extraInfo.equals("")) {
+                i = extraInfo.toLowerCase().equals("cmnet") ? NETTYPE_CMNET : NETTYPE_CMWAP;
+            }
+        } else if (type == NETTYPE_WIFI) {
+            i = NETTYPE_WIFI;
+        }
+        return i;
     }
 
     /**

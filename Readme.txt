@@ -20,17 +20,21 @@ Widget
 
 Utils
     executor 线程池
+    mail Java发邮件
     ACache 利用cache目录做的缓存控制
     AndroidComponentUtil  查控应用，跳转(电话、设置)，检查应用是否安装，应用是否在前台，是否是小米UI
     ApachePoiUtil word文档阅读
     BaseActivity 含回退逻辑的AppCompatActivity
     Clock 系统时间
+    CrashHandler 异常捕获
     CustomTabsHelper
     DataCleanUtil  清除缓存工具类
     DisplayUtils 分辨率转换，屏幕保亮，屏解锁，软键盘，导航栏高度，状态栏颜色高度，设置Editetxt Hint，设置TextView光标
     DocumentDownloadHelper 用DownloadManager下载文件
     FileMd5Utils 获得文件的md5值
     FingerprintUtil 指纹识别工具类
+    FontUtils 字体工具
+    GpsHelper
     HMACEncrypt (Hash-based message authentication code)，md5
     IntentUtils
     JavaUtils 含UUID，int转Byte，浮点除法，xml转结构体
@@ -38,7 +42,7 @@ Utils
     KeyEventUtils 发送key事件(跨应用需要平台签名)
     LoadLocalImageUtil universalimageloader工具
     MapUtils 高德和百度网页地图
-    NetworkUtils 判断网络连接，DNS判断
+    NetworkUtils 判断网络连接，网络类型，DNS判断
     NetworkViewModel  用于返回网络状态的Rx观察者
     ParcelableUtil Parcelable转byte
     PermissionUtil 权限申请
@@ -51,6 +55,7 @@ Utils
     SpannableStringBuilderHelp
     StringUtils 单词首字符大写
     SystemPropertiesProxy 获取系统属性
+    WifiHelper Wifi属性
 
 EncryptActivity RSA加密解密，MD5哈希
 

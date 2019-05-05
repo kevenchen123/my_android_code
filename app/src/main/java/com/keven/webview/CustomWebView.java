@@ -18,6 +18,7 @@ public class CustomWebView extends WebView {
         requestFocus();
 
         WebSettings webSettings = getSettings();
+
         webSettings.setSupportZoom(true);//设置是否支持变焦
         webSettings.setBuiltInZoomControls(true);
         webSettings.setDisplayZoomControls(true);

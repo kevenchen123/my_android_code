@@ -83,7 +83,7 @@ public class ConstantModule {
     @Provides
     @Named("isConnect")
     boolean provideIsConnect(Context context) {
-        return NetworkUtils.isConnected(context);
+        return NetworkUtils.isNetworkConnected(context);
     }
 
     @Provides
