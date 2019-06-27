@@ -26,7 +26,7 @@ public class MockUtils {
         }
     }
 
-    private static String convertStreamToString(InputStream inputStream) throws IOException {
+    public static String convertStreamToString(InputStream inputStream) throws IOException {
         Writer writer = new StringWriter();
         char[] buffer = new char[2048];
         try {

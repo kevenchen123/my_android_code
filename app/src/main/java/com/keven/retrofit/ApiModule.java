@@ -94,7 +94,7 @@ public class ApiModule {
         //show logs if app is in Debug mode
         if (isDebug) {
             okHttpClient.addInterceptor(loggingInterceptor);
-            okHttpClient.addInterceptor(mockInterceptor);
+            //okHttpClient.addInterceptor(mockInterceptor);
         }
         return okHttpClient.build();
     }

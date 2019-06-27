@@ -18,8 +18,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 
-import com.keven.retrofit.UserResponse;
-import com.keven.retrofit.UserResponse.Contact.Phone;
+import com.keven.retrofit.model.UserResponse;
+import com.keven.retrofit.model.UserResponse.Contact.Phone;
 
 /**
  * json字符串与对象相互转换

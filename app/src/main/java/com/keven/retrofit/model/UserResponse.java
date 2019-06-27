@@ -1,4 +1,4 @@
-package com.keven.retrofit;
+package com.keven.retrofit.model;
 
 import java.util.Date;
 import java.util.List;

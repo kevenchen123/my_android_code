@@ -11,6 +11,7 @@ Widget
     BundleEditText  用于多个EditText的同步粘贴数字
     CircleProgressButton 环形进度条按钮
     CustomDrawerLayout 自定义滑动边界的抽屉布局
+    GildeView 缓存图片再draw
     GridSpacingItemDecoration
     JustifyTextView 中文对齐
     PressImageView 点击时显示明暗变化(滤镜效果)的ImageView
@@ -41,6 +42,7 @@ Utils
     JsonHelp Gson处理
     KeyEventUtils 发送key事件(跨应用需要平台签名)
     LoadLocalImageUtil universalimageloader工具
+    MacUtil 读取mac地址
     MapUtils 高德和百度网页地图
     NetworkUtils 判断网络连接，网络类型，DNS判断
     NetworkViewModel  用于返回网络状态的Rx观察者

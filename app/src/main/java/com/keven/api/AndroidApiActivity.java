@@ -2,6 +2,7 @@ package com.keven.api;
 
 import android.Manifest;
 import android.app.PendingIntent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,7 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
-import com.keven.utils.JavaUtils;
+import com.keven.retrofit.model.POIbean;
 import com.keven.utils.SystemPropertiesProxy;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
@@ -22,13 +23,14 @@ import okhttp3.ResponseBody;
 import rx.functions.Action1;
 
 import com.keven.R;
-import com.keven.retrofit.UserResponse;
+import com.keven.retrofit.model.UserResponse;
 import com.keven.retrofit.subscribers.ProgressSubscriber;
 import com.keven.retrofit.subscribers.SubscriberOnNextListener;
 import com.keven.utils.AndroidComponentUtil;
 import com.keven.utils.SchedulerProvider;
 import com.keven.retrofit.DataService;
 import com.keven.notification.NotificationHandler;
+import com.keven.databinding.ActivityAndroidApiBinding;
 import com.cwj.fataar.Test;
 
 
@@ -37,7 +39,8 @@ public class AndroidApiActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_android_api);
+        ActivityAndroidApiBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_android_api);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         testNotification();
@@ -165,7 +168,7 @@ public class AndroidApiActivity extends AppCompatActivity implements View.OnClic
                             }
                         }, this));
 
-        DataService.getInstance(AndroidApiActivity.this).getbaidu()
+        DataService.getInstance(AndroidApiActivity.this).getBaidu()
                 .compose(SchedulerProvider.DEFAULT.applySchedulers())
                 .subscribe(
                         new ProgressSubscriber(new SubscriberOnNextListener<ResponseBody>() {
@@ -178,6 +181,15 @@ public class AndroidApiActivity extends AppCompatActivity implements View.OnClic
                                 }
                             }
                         }, this));
+
+        DataService.getInstance(AndroidApiActivity.this).getAmapLocation("上海市闵行区甬虹路69号虹桥绿谷广场G栋")
+                .compose(SchedulerProvider.DEFAULTTREADPOOL.applySchedulers())
+                .subscribe(new Action1<POIbean>() {
+                    @Override
+                    public void call(POIbean poIbean) {
+                        Log.d("TAG", "POI=" + poIbean);
+                    }
+                });
     }
 
     //--------------------------------------------------------------

@@ -4,6 +4,9 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.keven.retrofit.model.POIbean;
+import com.keven.retrofit.model.UserResponse;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,7 +80,18 @@ public class DataService {
         return mApiClient.getUser(username);
     }
 
-    public Observable<ResponseBody> getbaidu() {
-        return mApiClient.getbaidu();
+    public Observable<ResponseBody> getBaidu() {
+        return mApiClient.getBaidu();
+    }
+
+    public Observable<POIbean> getAmapLocation(String keyword) {
+        Map<String, String> data = new HashMap<>();
+        data.put("keywords", keyword);
+        data.put("output", "json");
+        data.put("offset", "1");
+        data.put("page", "1");
+        data.put("key", "adbca2ca8337f1af9144336d03da6c24");
+        data.put("extensions", "all");
+        return mApiClient.getAmapLocation(data);
     }
 }
