@@ -30,7 +30,31 @@ public class TestFragment extends Fragment {
         textView = view.findViewById(R.id.text);
         textView.setText("FRAGMENT_INDEX = " + getArguments().getInt("FRAGMENT_INDEX"));
 
-        Log.d("TAG", "********** TestFragment="+ TestFragment.this+"   textView="+textView);
+        Log.d("TAG", "********** TestFragment="+ TestFragment.this+"   index="+getArguments().getInt("FRAGMENT_INDEX"));
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TAG", "++ "+ getParentFragment() +" , "+ getChildFragmentManager());
+                getChildFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fl_container2, TestFragment.newInstance(getArguments().getInt("FRAGMENT_INDEX") + 1))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        view.findViewById(R.id.text2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TAG", "-- "+ getParentFragment() +" , " + getFragmentManager() +" , "+ getChildFragmentManager());
+                if (getParentFragment() != null) {
+                    getParentFragment().getChildFragmentManager().popBackStack();
+                } else if (getChildFragmentManager() != null) {
+                    getChildFragmentManager().popBackStack();
+                }
+            }
+        });
+
         return view;
     }
 

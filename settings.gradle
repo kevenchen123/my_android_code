@@ -1,1 +1,1 @@
-include ':app', ':fataar', ':fataarinner', ':rsa', ':nanohttpd', ':nexus'
+include ':app', ':fataar', ':fataarinner', ':rsa', ':nanohttpd', ':nexus', ':rtpmedia', ':crashreport'

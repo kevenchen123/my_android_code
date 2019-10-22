@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_vertical_margin"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/extract_decode_edit_encode_mux"
+        android:text="ExtractDecodeEditEncodeMuxTest"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:onClick="onClick"
+        style="@style/buttonStyle"/>
+
+    <Button
+        android:id="@+id/decode_edit_encode"
+        android:text="DecodeEditEncodeTest"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:onClick="onClick"
+        style="@style/buttonStyle"/>
+
+    <Button
+        android:id="@+id/encode_decode"
+        android:text="EncodeDecodeTest"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:onClick="onClick"
+        style="@style/buttonStyle"/>
+
+</LinearLayout>

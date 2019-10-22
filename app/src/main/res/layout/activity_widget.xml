@@ -32,5 +32,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/image_bg2"
+                android:layout_width="230dp"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center_horizontal"/>
+        </FrameLayout>
+
     </LinearLayout>
 </ScrollView>

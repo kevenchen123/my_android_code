@@ -5,6 +5,7 @@ SystemAPI 包含功能：
     retrofit网络接口
 
 Widget
+    BitmapBlur EasyBlur 高斯模糊
     AppSettingsDialog 申请跳转app详细页的dialog
     AddSpaceTextWatcher  EditText数据监听器
     AutoLoadImageView 通过URLConnection从url加载图片并缓存在CacheDir文件夹
@@ -74,6 +75,8 @@ Nexus & HttpServer 私服maven仓库，手机HTTP服务
 QRCodeScanActivity 二维码扫描
 
 CameraAlbumActivity 相册，拍照，照片裁剪
+
+SocketIO 连接自己的heroku socketIO
 
 Slidr 右滑退出当前Activity渐变动画
 

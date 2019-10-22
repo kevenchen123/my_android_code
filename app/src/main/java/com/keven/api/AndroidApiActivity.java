@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.keven.retrofit.model.POIbean;
+import com.keven.utils.LogUtils;
 import com.keven.utils.SystemPropertiesProxy;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
@@ -151,7 +152,8 @@ public class AndroidApiActivity extends AppCompatActivity implements View.OnClic
 
     private void testFatAar() {
         Test.fun(this);
-        Log.d("TAG", "********** " + Test.textaa);
+        LogUtils.d("TAG", "********** " + Test.textaa);
+        String s =null; s.trim();
     }
 
     //--------------------------------------------------------------

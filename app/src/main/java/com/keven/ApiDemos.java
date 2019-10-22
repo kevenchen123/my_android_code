@@ -2,6 +2,7 @@ package com.keven;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.decodeEncode.EncodeDecodeActivity;
 import com.keven.animation.SlidrActivity;
 import com.keven.api.AndroidApiActivity;
 import com.keven.camera.CameraAlbumActivity;
@@ -22,9 +24,13 @@ import com.keven.graphiclock.GraphicLockActivity;
 import com.keven.nexus_httpserver.NexusTestActivity;
 import com.keven.qrcode.QRCodeScanActivity;
 import com.keven.scrollpicker.ScrollpickerActivity;
+import com.keven.socket.SocketIOActivity;
 import com.keven.touchevent.TouchEventActivity;
+import com.keven.utils.LogUtils;
 import com.keven.webview.WebActivity;
 import com.keven.widget.WidgetTestActivity;
+import com.xmcMediacodec.receivedecode.ReceiveActivity;
+import com.xmcMediacodec.sendencode.SendActivity;
 
 
 public class ApiDemos extends ListActivity {
@@ -33,8 +39,9 @@ public class ApiDemos extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String nameData[ ]={"SystemAPI", "Widget", "RsaEncrypt", "FragmentPager", "TouchEvent", "DragWindow"
-                , "ScrollPicker", "Nexus & HttpServer", "QRcode", "Camera & Album", "GraphicLock", "Slidr", "WebView"};
+        String nameData[ ]={"SystemAPI", "Widget", "RsaEncrypt", "FragmentPager", "TouchEvent", "DragWindow",
+                 "ScrollPicker", "Nexus & HttpServer", "Encode & Decode", "RTP sender", "RTP receiver", "QRcode", "Camera & Album",
+                 "GraphicLock", "SocketIO", "Slidr", "WebView"};
         Intent intentData[ ]={
                 new Intent(this, AndroidApiActivity.class),
                 new Intent(this, WidgetTestActivity.class),
@@ -44,9 +51,13 @@ public class ApiDemos extends ListActivity {
                 new Intent(this, DragWindowActivity.class),
                 new Intent(this, ScrollpickerActivity.class),
                 new Intent(this, NexusTestActivity.class),
+                new Intent(this, EncodeDecodeActivity.class),
+                new Intent(this, SendActivity.class),
+                new Intent(this, ReceiveActivity.class),
                 new Intent(this, QRCodeScanActivity.class),
                 new Intent(this, CameraAlbumActivity.class),
                 new Intent(this, GraphicLockActivity.class),
+                new Intent(this, SocketIOActivity.class),
                 new Intent(this, SlidrActivity.class),
                 WebActivity.getStartIntent(this, "hello", "http://m.amap.com/"/*"http://www.bing.com"*/) };
 
@@ -58,6 +69,8 @@ public class ApiDemos extends ListActivity {
                 android.R.layout.simple_list_item_1, new String[] { "title" },
                 new int[] { android.R.id.text1 }));
         getListView().setTextFilterEnabled(true);
+
+        LogUtils.enableDebug(this, true);
     }
 
 
@@ -73,6 +86,13 @@ public class ApiDemos extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         Map<String, Object> map = (Map<String, Object>)l.getItemAtPosition(position);
         Intent intent = new Intent((Intent) map.get("intent"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (isInMultiWindowMode() && "RTP receiver".equals(map.get("title"))) {   // 先分屏，再打开 rtp receiver
+                // launch this activity in another split window next to the current one
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT);
+            }
+        }
         startActivity(intent);
     }
 }

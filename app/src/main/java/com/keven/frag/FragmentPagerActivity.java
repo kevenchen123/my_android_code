@@ -33,8 +33,8 @@ public class FragmentPagerActivity extends AppCompatActivity {
     private void testViewPage() {
         ViewPager mViewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        fragmentList.add(TestFragment.newInstance(0));
-        fragmentList.add(TestFragment.newInstance(1));
+        fragmentList.add(TestFragment.newInstance(100));
+        fragmentList.add(TestFragment.newInstance(200));
         fragmentList.add(new PrefsFragment());
 
         NFragmentPagerAdapter pagerAdapter = new NFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);

@@ -2,19 +2,28 @@ package com.keven.widget;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Outline;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewOutlineProvider;
+import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,6 +32,9 @@ import butterknife.ButterKnife;
 
 import com.keven.R;
 import com.keven.utils.PermissionUtil;
+import com.keven.utils.PictureUtils;
+import com.keven.widget.blurlibrary.BitmapBlur;
+import com.keven.widget.blurlibrary.EasyBlur;
 
 import java.io.IOException;
 
@@ -44,6 +56,7 @@ public class WidgetTestActivity extends AppCompatActivity implements TextureView
         ((GlideView)findViewById(R.id.glide_view)).setUrl("http://pic1.win4000.com/wallpaper/5/54055707675cb.jpg");
 
         initTextureView();
+        testBlur();
     }
 
     @Override
@@ -113,5 +126,67 @@ public class WidgetTestActivity extends AppCompatActivity implements TextureView
 
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture arg0) {
+    }
+
+    //-------------------------------------------------------
+
+    private void testBlur() {
+        ImageView mImageBg = findViewById(R.id.image_bg);
+        ImageView view = findViewById(R.id.image_bg2);
+        final Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.blur_test);
+        mImageBg.setImageBitmap(bitmap);
+
+        mImageBg.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                mImageBg.getViewTreeObserver().removeOnPreDrawListener(this);
+                mImageBg.buildDrawingCache();
+                Bitmap bmp = mImageBg.getDrawingCache();
+                Bitmap overlay = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+
+                Canvas canvas = new Canvas(overlay);
+                canvas.translate(-view.getLeft(), view.getTop());
+                canvas.drawBitmap(bmp, 0, 0, null);
+
+                //方法一
+                easyBlur(overlay, view);
+                //方法二
+                //bitmapBlur(overlay, view);
+                return true;
+            }
+        });
+    }
+
+    private void easyBlur(Bitmap overlay, ImageView view) {
+        long startTime = System.currentTimeMillis();
+
+        Bitmap finalBitmap = EasyBlur.with(WidgetTestActivity.this)
+                .bitmap(overlay) //要模糊的图片
+                .scale(1)
+                .radius(25)//模糊半径
+                .policy(EasyBlur.BlurPolicy.RS_BLUR)
+                .blur();
+
+        long endTime = System.currentTimeMillis();
+        Log.i("TAG","cost Time:"+(endTime - startTime));
+
+        Bitmap finalBitmapRound = PictureUtils.roundBitmapByXfermode(finalBitmap, finalBitmap.getWidth(), finalBitmap.getHeight(), 80);
+        view.setBackground(new BitmapDrawable(getResources(), finalBitmapRound));
+        //view.setImageBitmap(finalBitmapRound);
+    }
+
+    private void bitmapBlur(Bitmap overlay, ImageView view) {
+        BitmapBlur.addTask(overlay, new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+
+                Bitmap finalBitmap = (Bitmap) msg.obj;
+                Bitmap finalBitmapRound = PictureUtils.roundBitmapByXfermode(finalBitmap, finalBitmap.getWidth(), finalBitmap.getHeight(), 80);
+                view.setBackground(new BitmapDrawable(getResources(), finalBitmapRound));
+                //view.setImageBitmap(finalBitmapRound);
+                overlay.recycle();
+            }
+        });
     }
 }

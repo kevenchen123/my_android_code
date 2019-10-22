@@ -1,5 +1,11 @@
 package com.keven.utils;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.telephony.TelephonyManager;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -7,6 +13,7 @@ import org.xml.sax.InputSource;
 
 import java.io.StringReader;
 import java.math.BigDecimal;
+import java.nio.charset.Charset;
 import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -16,6 +23,10 @@ public class JavaUtils {
 
     public static String randomUuid() {
         return UUID.randomUUID().toString();
+    }
+
+    public static String getAndroidID(Context context) {
+        return android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
     }
 
     public static byte[] intToByte(int v) {

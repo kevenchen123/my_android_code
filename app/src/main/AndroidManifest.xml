@@ -21,7 +21,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:resizeableActivity="true" >
 
         <activity android:name="com.keven.ApiDemos"
             android:label="ApiDemos">
@@ -32,6 +33,7 @@
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="com.keven.debug" />
             </intent-filter>
+            <layout android:minWidth="300dp" android:minHeight="450dp" android:gravity="top|end" android:defaultWidth="600dp" android:defaultHeight="500dp"/>
         </activity>
 
         <activity android:name="com.keven.api.AndroidApiActivity" />
@@ -50,11 +52,22 @@
 
         <activity android:name="com.keven.nexus_httpserver.NexusTestActivity"/>
 
+        <activity android:name="com.decodeEncode.EncodeDecodeActivity"/>
+
+        <activity android:name="com.xmcMediacodec.sendencode.SendActivity">
+            <layout android:minWidth="300dp" android:minHeight="450dp" android:gravity="top|end" android:defaultWidth="600dp" android:defaultHeight="500dp"/>
+        </activity>
+        <activity android:name="com.xmcMediacodec.receivedecode.ReceiveActivity">
+            <layout android:minWidth="300dp" android:minHeight="450dp" android:gravity="top|end" android:defaultWidth="600dp" android:defaultHeight="500dp"/>
+        </activity>
+
         <activity android:name="com.keven.qrcode.QRCodeScanActivity"/>
 
         <activity android:name="com.keven.camera.CameraAlbumActivity"/>
 
         <activity android:name="com.keven.graphiclock.GraphicLockActivity"/>
+
+        <activity android:name="com.keven.socket.SocketIOActivity"/>
 
         <activity android:name="com.keven.animation.SlidrActivity"
             android:theme="@style/Slidable"
