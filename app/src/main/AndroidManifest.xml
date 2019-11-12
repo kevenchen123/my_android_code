@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name=".App"
+        android:name="com.keven.MyTinkerApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,6 +23,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:resizeableActivity="true" >
+
+        <!-- 这个标签开判断我们生成的patch的.apk文件中的tinker_id_XXX与我们的版本号tinker_id_XXX比较。相同合法，不同则不会进行更新 -->
+        <meta-data
+            android:name="TINKER_ID"
+            android:value="1.0"/>
 
         <activity android:name="com.keven.ApiDemos"
             android:label="ApiDemos">
@@ -77,6 +82,8 @@
                 <category android:name="com.keven.debug" />
             </intent-filter>
         </activity>
+
+        <activity android:name="com.keven.hotfix.HotfixActivity"/>
 
         <activity
             android:name="com.keven.webview.WebActivity"

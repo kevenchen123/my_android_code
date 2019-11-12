@@ -1,4 +1,4 @@
-SystemAPI 包含功能：
+﻿SystemAPI 包含功能：
     API26的通知栏，
     发短信，
     FatAar打包（先要gradle中编译fataarinner，然后fataar，然后复制到app的libs目录下）,

@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.keven.utils.JsonHelp;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -123,58 +124,64 @@ public class ApiModule {
     @Singleton
     @Provides
     @Named("cacheInterceptor")
-    public Interceptor provideCacheInterceptor(@Named("cacheMaxAge") int maxAgeMin) {
-        return chain -> {
-            Response response = chain.proceed(chain.request());
+    public Interceptor provideCacheInterceptor(@Named("cacheMaxAge") final int maxAgeMin) {
+        return new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Response response = chain.proceed(chain.request());
 
-            CacheControl cacheControl = new CacheControl.Builder()
-                    .maxAge(maxAgeMin, TimeUnit.MINUTES)
-                    .build();
+                CacheControl cacheControl = new CacheControl.Builder()
+                        .maxAge(maxAgeMin, TimeUnit.MINUTES)
+                        .build();
 
-            return response.newBuilder()
-                    .header(CACHE_CONTROL, cacheControl.toString())
-                    .build();
-        };
+                return response.newBuilder()
+                        .header(CACHE_CONTROL, cacheControl.toString())
+                        .build();
+            }};
     }
 
     @Singleton
     @Provides
     @Named("offlineInterceptor")
-    public Interceptor provideOfflineCacheInterceptor(@Named("isConnect") boolean isConnect, @Named("cacheMaxStale") int maxStaleDay) {
-        return chain -> {
-            Request request = chain.request();
-            Log.e("TAG", "isConnect="+isConnect);
-            if (!isConnect) {
-                CacheControl cacheControl = new CacheControl.Builder()
-                        .maxStale(maxStaleDay, TimeUnit.DAYS)
-                        .build();
+    public Interceptor provideOfflineCacheInterceptor(@Named("isConnect") final boolean isConnect, @Named("cacheMaxStale") final int maxStaleDay) {
+        return new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request request = chain.request();
+                Log.e("TAG", "isConnect=" + isConnect);
+                if (!isConnect) {
+                    CacheControl cacheControl = new CacheControl.Builder()
+                            .maxStale(maxStaleDay, TimeUnit.DAYS)
+                            .build();
 
-                request = request.newBuilder()
-                        .cacheControl(cacheControl)
-                        .build();
-            }
-            return chain.proceed(request);
-        };
+                    request = request.newBuilder()
+                            .cacheControl(cacheControl)
+                            .build();
+                }
+                return chain.proceed(request);
+            }};
     }
 
     @Singleton
     @Provides
     @Named("mockInterceptor")
-    public Interceptor provideMockInterceptor(Context context, @Named("mockFile") String mockFile) {
-        return chain -> {
-            // delay for test
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return new Response.Builder()
-                    .code(200)
-                    .message("OK")
-                    .request(chain.request())
-                    .protocol(Protocol.HTTP_1_0)
-                    .body(ResponseBody.create(MediaType.parse("application/json"), MockUtils.getMockResponse(context, mockFile)))
-                    .build();
-        };
+    public Interceptor provideMockInterceptor(final Context context, @Named("mockFile") final String mockFile) {
+        return new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                // delay for test
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return new Response.Builder()
+                        .code(200)
+                        .message("OK")
+                        .request(chain.request())
+                        .protocol(Protocol.HTTP_1_0)
+                        .body(ResponseBody.create(MediaType.parse("application/json"), MockUtils.getMockResponse(context, mockFile)))
+                        .build();
+            }};
     }
 }

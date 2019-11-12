@@ -19,7 +19,7 @@ public class UpdateAPK {
     private File downfile;
     private long fileContentLength;
 
-    public void update(Context context, String downloadURL, String md5) {
+    public void update(final Context context, final String downloadURL, final String md5) {
         //文件已下载点击重新安装
         if (checkFileAndOpen(context, downfile, fileContentLength, md5, true)) {
             return;

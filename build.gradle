@@ -1,11 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    
+
     repositories {
-        google()
+        mavenLocal()
         jcenter()
-        mavenCentral()
+        google()
 
         // fataar
         maven { url "https://plugins.gradle.org/m2/" }
@@ -26,15 +26,27 @@ buildscript {
         // spoon
         classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.0.2'
 
+        // tinker
+        classpath("com.tencent.tinker:tinker-patch-gradle-plugin:${TINKER_VERSION}") {
+            changing = TINKER_VERSION?.endsWith("-SNAPSHOT")
+            exclude group: 'com.android.tools.build', module: 'gradle'
+        }
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+    }
+
+    // tinker
+    configurations.all {
+        it.resolutionStrategy.cacheDynamicVersionsFor(5, 'minutes')
+        it.resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
     }
 }
 
 allprojects {
     repositories {
-        google()
+        mavenLocal()
         jcenter()
+        google()
 
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url "https://jitpack.io" }

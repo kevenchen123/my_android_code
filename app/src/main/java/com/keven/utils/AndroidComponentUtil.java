@@ -205,7 +205,7 @@ public final class AndroidComponentUtil {
     /**
      * Removes a task by id.
      */
-    public static void removeTask(Context context, int taskId) {
+    public static void removeTask(final Context context, final int taskId) {
         BackgroundExecutor.get().submit(new Runnable() {
             @Override
             public void run() {

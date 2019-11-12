@@ -69,82 +69,124 @@ public class SocketIOActivity extends AppCompatActivity implements View.OnClickL
 
     //--------------------------------------------------------------
 
-    private Emitter.Listener onConnect = (Object... args) -> {
-        runOnUiThread(() -> {
-            Log.d(TAG, "onConnect >>");
-            for (Object obj : args) {
-                Log.d(TAG, ">>" + obj);
-            }
-        });
-    };
+    private Emitter.Listener onConnect = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "onConnect >>");
+                    for (Object obj : args) {
+                        Log.d(TAG, ">>" + obj);
+                    }
+                }
+            });
+        }};
 
-    private Emitter.Listener onDisconnect = (Object... args) -> {
-        runOnUiThread(() -> {
-            Log.d(TAG, "onDisconnect >>");
-            for (Object obj : args) {
-                Log.d(TAG, ">>" + obj);
-            }
-        });
-    };
+    private Emitter.Listener onDisconnect = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "onDisconnect >>");
+                    for (Object obj : args) {
+                        Log.d(TAG, ">>" + obj);
+                    }
+                }
+            });
+        }};
 
-    private Emitter.Listener onError = (Object... args) -> {
-        runOnUiThread(() -> {
-            Log.d(TAG, "onError >>");
-            for (Object obj : args) {
-                Log.d(TAG, ">>" + obj);
-            }
-        });
-    };
+    private Emitter.Listener onError = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "onError >>");
+                    for (Object obj : args) {
+                        Log.d(TAG, ">>" + obj);
+                    }
+                }
+            });
+        }};
 
-    private Emitter.Listener onTimeout = (Object... args) -> {
-        runOnUiThread(() -> {
-            Log.d(TAG, "onTimeout >>");
-            for (Object obj : args) {
-                Log.d(TAG, ">>" + obj);
-            }
-        });
-    };
+    private Emitter.Listener onTimeout = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "onTimeout >>");
+                    for (Object obj : args) {
+                        Log.d(TAG, ">>" + obj);
+                    }
+                }
+            });
+        }};
 
-    private Emitter.Listener onTime = (Object... args) -> {
-        runOnUiThread(() -> {
-            Log.d(TAG, "onTime >>");
-            for (Object obj : args) {
-                Log.d(TAG, ">>" + obj);
-            }
-        });
-    };
+    private Emitter.Listener onTime = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "onTime >>");
+                    for (Object obj : args) {
+                        Log.d(TAG, ">>" + obj);
+                    }
+                }
+            });
+        }};
 
-    private Emitter.Listener onClientConnect = (Object... args) -> {
-        runOnUiThread(() -> {
-            Log.d(TAG, "onClientConnect >>");
-            for (Object obj : args) {
-                Log.d(TAG, ">>" + obj);
-                mSocket.emit("client-join", MessageJson.Builder.newInstance()
-                        .put("type", "join")
-                        .put("name", JavaUtils.getAndroidID(SocketIOActivity.this))
-                        .put("room", "100")
-                        .build());
-            }
-        });
-    };
+    private Emitter.Listener onClientConnect = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "onClientConnect >>");
+                    for (Object obj : args) {
+                        Log.d(TAG, ">>" + obj);
+                        mSocket.emit("client-join", MessageJson.Builder.newInstance()
+                                .put("type", "join")
+                                .put("name", JavaUtils.getAndroidID(SocketIOActivity.this))
+                                .put("room", "100")
+                                .build());
+                    }
+                }
+            });
+        }};
 
-    private Emitter.Listener onSystem = (Object... args) -> {
-        runOnUiThread(() -> {
-            Log.d(TAG, "onSystem >>");
-            for (Object obj : args) {
-                Log.d(TAG, ">>" + obj);
-            }
-        });
-    };
 
-    private Emitter.Listener onOther = (Object... args) -> {
-        runOnUiThread(() -> {
-            Log.d(TAG, "onOther >>");
-            for (Object obj : args) {
-                Log.d(TAG, ">>" + obj);
-            }
-        });
-    };
+    private Emitter.Listener onSystem = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "onSystem >>");
+                    for (Object obj : args) {
+                        Log.d(TAG, ">>" + obj);
+                    }
+                }
+            });
+        }};
+
+
+    private Emitter.Listener onOther = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "onOther >>");
+                    for (Object obj : args) {
+                        Log.d(TAG, ">>" + obj);
+                    }
+                }
+            });
+        }};
 
     @Override
     public void onClick(View v) {

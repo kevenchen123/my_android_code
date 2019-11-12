@@ -13,16 +13,22 @@ public interface SchedulerProvider {
 
   SchedulerProvider DEFAULT = new SchedulerProvider() {
     @Override public <T> Observable.Transformer<T, T> applySchedulers() {
-      return observable -> observable.subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread());
-    }
-  };
+      return new Observable.Transformer<T, T>() {
+        @Override
+        public Observable<T> call(Observable<T> tObservable) {
+          return tObservable.subscribeOn(Schedulers.io())
+                  .observeOn(AndroidSchedulers.mainThread());
+        }};
+    }};
 
   Executor threadPoolExecutor = new JobExecutor();
   SchedulerProvider DEFAULTTREADPOOL = new SchedulerProvider() {
     @Override public <T> Observable.Transformer<T, T> applySchedulers() {
-      return observable -> observable.subscribeOn(Schedulers.from(threadPoolExecutor))
-              .observeOn(AndroidSchedulers.mainThread());
-    }
-  };
+      return new Observable.Transformer<T, T>() {
+        @Override
+        public Observable<T> call(Observable<T> tObservable) {
+          return tObservable.subscribeOn(Schedulers.from(threadPoolExecutor))
+                  .observeOn(AndroidSchedulers.mainThread());
+        }};
+    }};
 }

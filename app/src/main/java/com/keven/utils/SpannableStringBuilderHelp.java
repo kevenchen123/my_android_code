@@ -99,8 +99,8 @@ public class SpannableStringBuilderHelp {
     /**
      * 加图片文本
      */
-    public static SpannableString inBoundDrawable(Context context, String text, int includePosition, int excludePosition,
-                                                  @DrawableRes int drawableId, int widthDp, int heightDp) {
+    public static SpannableString inBoundDrawable(final Context context, String text, int includePosition, int excludePosition,
+                                                  @DrawableRes final int drawableId, final int widthDp, final int heightDp) {
         SpannableString spanText = new SpannableString(text);
         spanText.setSpan(new DynamicDrawableSpan(DynamicDrawableSpan.ALIGN_BASELINE) {
             @Override

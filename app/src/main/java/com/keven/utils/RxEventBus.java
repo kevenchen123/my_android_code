@@ -47,7 +47,7 @@ public class RxEventBus {
         mBusSubject.onNext(event);
     }
 
-    public <T> void subscribe(PublishCallback<T> callback, Class<T> type) {
+    public <T> void subscribe(final PublishCallback<T> callback, final Class<T> type) {
         if (mBusSubject != null) {
             Consumer<Object> consumer = new Consumer<Object>() {
                 @Override

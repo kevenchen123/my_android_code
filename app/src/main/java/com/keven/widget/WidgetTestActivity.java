@@ -131,8 +131,8 @@ public class WidgetTestActivity extends AppCompatActivity implements TextureView
     //-------------------------------------------------------
 
     private void testBlur() {
-        ImageView mImageBg = findViewById(R.id.image_bg);
-        ImageView view = findViewById(R.id.image_bg2);
+        final ImageView mImageBg = findViewById(R.id.image_bg);
+        final ImageView view = findViewById(R.id.image_bg2);
         final Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.blur_test);
         mImageBg.setImageBitmap(bitmap);
 
@@ -175,7 +175,7 @@ public class WidgetTestActivity extends AppCompatActivity implements TextureView
         //view.setImageBitmap(finalBitmapRound);
     }
 
-    private void bitmapBlur(Bitmap overlay, ImageView view) {
+    private void bitmapBlur(final Bitmap overlay, final ImageView view) {
         BitmapBlur.addTask(overlay, new Handler() {
             @Override
             public void handleMessage(Message msg) {

@@ -25,7 +25,7 @@ public class PermissionUtil {
         protected void onDenied() {};
     }
 
-    public static void requestPermission(Activity activity, String[] permissions, PermissionListener listener, String hint) {
+    public static void requestPermission(final Activity activity, String[] permissions, final PermissionListener listener, final String hint) {
         if (activity == null || permissions == null || listener == null) return;
 
         new RxPermissions(activity).request(permissions)

@@ -135,15 +135,18 @@ public class AndroidApiActivity extends AppCompatActivity implements View.OnClic
         new RxPermissions(this).request(
                 Manifest.permission.SEND_SMS,
                 Manifest.permission.READ_PHONE_STATE)
-                .subscribe(granted -> {
-                    PendingIntent sentPI = null;
-                    PendingIntent deliverPI = null;
-                    // 获取短信管理器
-                    android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
-                    // 拆分短信内容（手机短信长度限制）
-                    List<String> divideContents = smsManager.divideMessage("123abc");
-                    for (String text : divideContents) {
-                        smsManager.sendTextMessage("13524573505", null, text, sentPI, deliverPI);
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean granted) {
+                        PendingIntent sentPI = null;
+                        PendingIntent deliverPI = null;
+                        // 获取短信管理器
+                        android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
+                        // 拆分短信内容（手机短信长度限制）
+                        List<String> divideContents = smsManager.divideMessage("123abc");
+                        for (String text : divideContents) {
+                            smsManager.sendTextMessage("13524573505", null, text, sentPI, deliverPI);
+                        }
                     }
                 });
     }
@@ -185,7 +188,7 @@ public class AndroidApiActivity extends AppCompatActivity implements View.OnClic
                         }, this));
 
         DataService.getInstance(AndroidApiActivity.this).getAmapLocation("上海市闵行区甬虹路69号虹桥绿谷广场G栋")
-                .compose(SchedulerProvider.DEFAULTTREADPOOL.applySchedulers())
+                .compose(SchedulerProvider.DEFAULTTREADPOOL.<POIbean>applySchedulers())
                 .subscribe(new Action1<POIbean>() {
                     @Override
                     public void call(POIbean poIbean) {

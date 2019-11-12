@@ -21,6 +21,8 @@ import com.keven.dragwindow.DragWindowActivity;
 import com.keven.encrypt.EncryptActivity;
 import com.keven.frag.FragmentPagerActivity;
 import com.keven.graphiclock.GraphicLockActivity;
+import com.keven.hotfix.TinkerManager;
+import com.keven.hotfix.HotfixActivity;
 import com.keven.nexus_httpserver.NexusTestActivity;
 import com.keven.qrcode.QRCodeScanActivity;
 import com.keven.scrollpicker.ScrollpickerActivity;
@@ -41,7 +43,7 @@ public class ApiDemos extends ListActivity {
 
         String nameData[ ]={"SystemAPI", "Widget", "RsaEncrypt", "FragmentPager", "TouchEvent", "DragWindow",
                  "ScrollPicker", "Nexus & HttpServer", "Encode & Decode", "RTP sender", "RTP receiver", "QRcode", "Camera & Album",
-                 "GraphicLock", "SocketIO", "Slidr", "WebView"};
+                 "GraphicLock", "SocketIO", "Slidr", "HotFix", "WebView"};
         Intent intentData[ ]={
                 new Intent(this, AndroidApiActivity.class),
                 new Intent(this, WidgetTestActivity.class),
@@ -59,6 +61,7 @@ public class ApiDemos extends ListActivity {
                 new Intent(this, GraphicLockActivity.class),
                 new Intent(this, SocketIOActivity.class),
                 new Intent(this, SlidrActivity.class),
+                new Intent(this, HotfixActivity.class),
                 WebActivity.getStartIntent(this, "hello", "http://m.amap.com/"/*"http://www.bing.com"*/) };
 
         List<Map<String, Object>> myData = new ArrayList<>();
@@ -70,6 +73,7 @@ public class ApiDemos extends ListActivity {
                 new int[] { android.R.id.text1 }));
         getListView().setTextFilterEnabled(true);
 
+        //-------------------------init other tool--------------------
         LogUtils.enableDebug(this, true);
     }
 

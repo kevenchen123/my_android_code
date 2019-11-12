@@ -54,10 +54,15 @@ public class DisplayUtils {
     }
 
     //屏解锁
-    public void unlockScreen(Activity activity) {
-        Runnable wakeUpDevice = () -> activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    public void unlockScreen(final Activity activity) {
+        Runnable wakeUpDevice = new Runnable() {
+            @Override
+            public void run() {
+                activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+        };
         activity.runOnUiThread(wakeUpDevice);
     }
 
@@ -152,8 +157,11 @@ public class DisplayUtils {
     }
 
     public static void systemUIVisible(View view) {
-        view.setOnSystemUiVisibilityChangeListener(visibility -> {
-            boolean systemUiVisible = (visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0;
+        view.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                boolean systemUiVisible = (visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0;
+            }
         });
     }
 
