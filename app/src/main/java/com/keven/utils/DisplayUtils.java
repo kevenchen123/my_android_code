@@ -2,7 +2,10 @@ package com.keven.utils;
 
 import android.app.Activity;
 import android.app.KeyguardManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -13,6 +16,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.style.AbsoluteSizeSpan;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -182,6 +186,32 @@ public class DisplayUtils {
             f.set(et, drawable);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    // 屏幕是否暗
+    public static class ScreenState {
+        public interface IOnScreenOff {
+            void onScreenOff();
+        }
+
+        public ScreenState(final Context context, final IOnScreenOff onScreenOffInterface) {
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(Intent.ACTION_SCREEN_OFF);
+
+            context.registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent in) {
+                    String action = in == null ? "" : in.getAction();
+                    Log.i("ScreenState", "ScreenReceiver action = " + action);
+                    if (Intent.ACTION_SCREEN_OFF.equals(action)) {
+                        if (onScreenOffInterface != null) {
+                            onScreenOffInterface.onScreenOff();
+                        }
+                    }
+                    context.unregisterReceiver(this);
+                }
+            }, filter);
         }
     }
 

@@ -21,7 +21,6 @@ import com.keven.dragwindow.DragWindowActivity;
 import com.keven.encrypt.EncryptActivity;
 import com.keven.frag.FragmentPagerActivity;
 import com.keven.graphiclock.GraphicLockActivity;
-import com.keven.hotfix.TinkerManager;
 import com.keven.hotfix.HotfixActivity;
 import com.keven.nexus_httpserver.NexusTestActivity;
 import com.keven.qrcode.QRCodeScanActivity;
@@ -62,7 +61,7 @@ public class ApiDemos extends ListActivity {
                 new Intent(this, SocketIOActivity.class),
                 new Intent(this, SlidrActivity.class),
                 new Intent(this, HotfixActivity.class),
-                WebActivity.getStartIntent(this, "hello", "http://m.amap.com/"/*"http://www.bing.com"*/) };
+                WebActivity.getStartIntent(this, "hello", "file:///android_asset/www/default.html"/*"http://m.amap.com/"*//*"http://www.bing.com"*/) };
 
         List<Map<String, Object>> myData = new ArrayList<>();
         for (int i = 0; i < nameData.length; i++) {

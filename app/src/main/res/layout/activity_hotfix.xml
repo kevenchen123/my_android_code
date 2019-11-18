@@ -10,16 +10,33 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/load_patch"
             android:onClick="loadPatch"
-            android:text="修复BUG"
+            android:text="加载patch"
             style="@style/buttonStyle"/>
 
         <Button
-            android:id="@+id/load_andfix"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:onClick="onClick"
-            android:text="重启APP"
+            android:id="@+id/clear_patch"
+            android:onClick="clearPatch"
+            android:text="删除patch"
             style="@style/buttonStyle"/>
 
+        <Button
+            android:id="@+id/show_info"
+            android:onClick="showInfo"
+            android:text="显示patch信息"
+            style="@style/buttonStyle"/>
+
+        <Button
+            android:id="@+id/restart_app"
+            android:onClick="onClick"
+            android:text="Patch加载或删除后，重启APP"
+            style="@style/buttonStyle"/>
+
+        <TextView
+            android:id="@+id/test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="加载Patch后新增加的TextView"/>
     </LinearLayout>
 </layout>

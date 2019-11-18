@@ -14,42 +14,36 @@
         <Button
             android:id="@+id/remove_task"
             android:text="Remove Task"
-            android:paddingTop="@dimen/activity_vertical_margin"
             android:onClick="onClick"
             style="@style/buttonStyle"/>
 
         <Button
             android:id="@+id/button_sms"
             android:text="Send sms"
-            android:paddingTop="@dimen/activity_vertical_margin"
             android:onClick="onClick"
             style="@style/buttonStyle"/>
 
         <Button
             android:id="@+id/button_fataar"
             android:text="Fat Aar Library"
-            android:paddingTop="@dimen/activity_vertical_margin"
             android:onClick="onClick"
             style="@style/buttonStyle"/>
 
         <Button
             android:id="@+id/button_retrofit"
             android:text="Retrofit and OKhttp"
-            android:paddingTop="@dimen/activity_vertical_margin"
             android:onClick="onClick"
             style="@style/buttonStyle"/>
 
         <Button
             android:id="@+id/button_activity_info"
             android:text="Filter Activity"
-            android:paddingTop="@dimen/activity_vertical_margin"
             android:onClick="onClick"
             style="@style/buttonStyle"/>
 
         <Button
             android:id="@+id/button_system_property"
             android:text="System Property"
-            android:paddingTop="@dimen/activity_vertical_margin"
             android:onClick="onClick"
             style="@style/buttonStyle"/>
 

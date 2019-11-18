@@ -2,7 +2,7 @@ package com.keven.utils;
 
 import android.content.Context;
 
-import com.keven.CustomTinkerLike;
+import com.keven.SampleApplicationLike;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 import java.io.BufferedInputStream;
@@ -49,7 +49,7 @@ public class AuthImageDownloader extends BaseImageDownloader {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setConnectTimeout(connectTimeout);
         conn.setReadTimeout(readTimeout);
-        conn.setRequestProperty("Authorization", "Bearer" + CustomTinkerLike.accessToken);
+        conn.setRequestProperty("Authorization", "Bearer" + SampleApplicationLike.accessToken);
         if (conn instanceof HttpsURLConnection) {
             ((HttpsURLConnection) conn).setSSLSocketFactory(mSSLSocketFactory);
             ((HttpsURLConnection) conn).setHostnameVerifier((DO_NOT_VERIFY));
@@ -73,7 +73,7 @@ public class AuthImageDownloader extends BaseImageDownloader {
             for (Map.Entry<String, String> header : headers.entrySet()) {
                 conn.setRequestProperty(header.getKey(), header.getValue());
             }
-            conn.setRequestProperty("Authorization", "Bearer" + CustomTinkerLike.accessToken);
+            conn.setRequestProperty("Authorization", "Bearer" + SampleApplicationLike.accessToken);
         }
         return conn;
     }

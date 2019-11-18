@@ -9,6 +9,9 @@ import android.os.Looper;
 import android.os.Process;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.keven.hotfix.tinker.TinkerCrashHandler;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -52,7 +55,11 @@ public class CrashHandler implements UncaughtExceptionHandler {
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
 
+    @Override
     public void uncaughtException(Thread thread, Throwable th) {
+        TinkerCrashHandler.tinkerFastCrashProtect();
+        TinkerCrashHandler.tinkerPreVerifiedCrashHandler(th);
+
         if (!handleException(th)) {
             UncaughtExceptionHandler uncaughtExceptionHandler = this.mDefaultHandler;
             if (uncaughtExceptionHandler != null) {
