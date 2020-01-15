@@ -18,7 +18,7 @@ import io.reactivex.subjects.PublishSubject;
 public class RxEventBus {
 
     private final PublishSubject<Object> mBusSubject;
-    private final HashMap<Consumer, Disposable> mDisposables = new HashMap<>();
+    private final HashMap<MyConsumer, Disposable> mDisposables = new HashMap<>();
 
     @Inject
     public RxEventBus() {
@@ -47,9 +47,9 @@ public class RxEventBus {
         mBusSubject.onNext(event);
     }
 
-    public <T> void subscribe(final PublishCallback<T> callback, final Class<T> type) {
+    public <T> Consumer subscribe(final PublishCallback<T> callback, final Class<T> type) {
         if (mBusSubject != null) {
-            Consumer<Object> consumer = new Consumer<Object>() {
+            MyConsumer<Object> consumer = new MyConsumer<Object>() {
                 @Override
                 public void accept(Object o) {
                     if (o.getClass() == type) {
@@ -57,9 +57,15 @@ public class RxEventBus {
                         unSubscribe(this);
                     }
                 }
+                @Override
+                public Class getTypeClass() {
+                    return type;
+                }
             };
             mDisposables.put(consumer, mBusSubject.ofType(type).subscribe(consumer));
+            return consumer;
         }
+        return null;
     }
 
     public void unSubscribe(Consumer consumer) {
@@ -72,9 +78,44 @@ public class RxEventBus {
         }
     }
 
+
+    public void unSubscribeAll() {
+        if (mDisposables != null) {
+            for (Consumer consumer : mDisposables.keySet()) {
+                Disposable disposable = mDisposables.get(consumer);
+                if (disposable != null && !disposable.isDisposed()) {
+                    disposable.dispose();
+                }
+            }
+            mDisposables.clear();
+        }
+    }
+
+    public boolean isAnySubscribe() {
+        if (mDisposables != null) {
+            return !mDisposables.isEmpty();
+        }
+        return false;
+    }
+
+    public boolean isSubscribe(Class type) {
+        if (mDisposables != null) {
+            for (MyConsumer consumer : mDisposables.keySet()) {
+                if (consumer.getTypeClass() == type) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     //--------------------------------------------------------------
 
     public interface PublishCallback<T> {
         void accept(T item);
+    }
+
+    private interface MyConsumer<T> extends Consumer<T> {
+        Class getTypeClass();
     }
 }

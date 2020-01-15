@@ -1,24 +1,20 @@
-package com.keven.widget;
+package com.keven.widget.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Outline;
-import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewOutlineProvider;
@@ -33,6 +29,8 @@ import butterknife.ButterKnife;
 import com.keven.R;
 import com.keven.utils.PermissionUtil;
 import com.keven.utils.PictureUtils;
+import com.keven.widget.AutoLoadImageView;
+import com.keven.widget.GlideView;
 import com.keven.widget.blurlibrary.BitmapBlur;
 import com.keven.widget.blurlibrary.EasyBlur;
 
@@ -40,7 +38,8 @@ import java.io.IOException;
 
 public class WidgetTestActivity extends AppCompatActivity implements TextureView.SurfaceTextureListener {
 
-    @BindView(R.id.iv_cover) AutoLoadImageView iv_cover;
+    @BindView(R.id.iv_cover)
+    AutoLoadImageView iv_cover;
     @BindView(R.id.plurals_text) TextView plurals_text;
 
     @Override

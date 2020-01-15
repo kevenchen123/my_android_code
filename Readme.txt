@@ -58,6 +58,7 @@ Utils
     SpannableStringBuilderHelp
     StringUtils 单词首字符大写
     SystemPropertiesProxy 获取系统属性
+    ViewUtils 设置view的宽高，Margin
     WifiHelper Wifi属性
 
 EncryptActivity RSA加密解密，MD5哈希

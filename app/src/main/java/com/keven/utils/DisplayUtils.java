@@ -16,7 +16,9 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.style.AbsoluteSizeSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -42,6 +44,37 @@ public class DisplayUtils {
     public static int dpToPx(int dp) {
         float density = Resources.getSystem().getDisplayMetrics().density;
         return Math.round(dp * density);
+    }
+
+    public static int dip2px(float dipValue) {
+        final float scale = Resources.getSystem().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
+    }
+
+    public static float px2sp(Context context, Float px) {
+        if (context == null) {
+            return px.intValue();
+        }
+        float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
+        return px / scaledDensity;
+    }
+
+    public static float sp2px(Context context, float sp) {
+        if (context == null) {
+            return sp;
+        }
+        Resources r = context.getResources();
+        float size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, r.getDisplayMetrics());
+        return size;
+    }
+
+    //屏幕尺寸
+    public static int[] getScreenHeightPixels(Context context) {
+        DisplayMetrics dm = new DisplayMetrics();
+        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        manager.getDefaultDisplay().getMetrics(dm);
+        int[] size = new int[] {dm.widthPixels, dm.heightPixels};
+        return size;
     }
 
     //是否是pad

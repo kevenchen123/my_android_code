@@ -29,7 +29,8 @@ import com.keven.socket.SocketIOActivity;
 import com.keven.touchevent.TouchEventActivity;
 import com.keven.utils.LogUtils;
 import com.keven.webview.WebActivity;
-import com.keven.widget.WidgetTestActivity;
+import com.keven.widget.activity.CustomWidgetActivity;
+import com.keven.widget.activity.WidgetTestActivity;
 import com.xmcMediacodec.receivedecode.ReceiveActivity;
 import com.xmcMediacodec.sendencode.SendActivity;
 
@@ -40,12 +41,13 @@ public class ApiDemos extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String nameData[ ]={"SystemAPI", "Widget", "RsaEncrypt", "FragmentPager", "TouchEvent", "DragWindow",
+        String nameData[ ]={"SystemAPI", "Widget", "Custom Widget", "RsaEncrypt", "FragmentPager", "TouchEvent", "DragWindow",
                  "ScrollPicker", "Nexus & HttpServer", "Encode & Decode", "RTP sender", "RTP receiver", "QRcode", "Camera & Album",
                  "GraphicLock", "SocketIO", "Slidr", "HotFix", "WebView"};
         Intent intentData[ ]={
                 new Intent(this, AndroidApiActivity.class),
                 new Intent(this, WidgetTestActivity.class),
+                new Intent(this, CustomWidgetActivity.class),
                 new Intent(this, EncryptActivity.class),
                 new Intent(this, FragmentPagerActivity.class),
                 new Intent(this, TouchEventActivity.class),

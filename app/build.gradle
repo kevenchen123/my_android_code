@@ -169,6 +169,9 @@ dependencies {
     implementation 'com.android.support:support-annotations:20.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 
+    // UI控件
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+
     // for SlidrActivity
     compile 'com.r0adkll:slidableactivity:2.0.5'
 
@@ -264,7 +267,7 @@ def bakPath = file("${buildDir}/bakApk/")
  */
 ext {
     //for some reason, you may want to ignore tinkerBuild, such as instant run debug build?
-    tinkerEnabled = true
+    tinkerEnabled = false
 
     //for normal build
     //old apk file to build patch apk

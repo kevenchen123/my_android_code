@@ -43,7 +43,9 @@
 
         <activity android:name="com.keven.api.AndroidApiActivity" />
 
-        <activity android:name="com.keven.widget.WidgetTestActivity"/>
+        <activity android:name="com.keven.widget.activity.WidgetTestActivity"/>
+
+        <activity android:name="com.keven.widget.activity.CustomWidgetActivity"/>
 
         <activity android:name="com.keven.encrypt.EncryptActivity"/>
 
@@ -91,7 +93,6 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="nosensor"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
-
 
         <provider
             android:name="android.support.v4.content.FileProvider"
