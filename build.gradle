@@ -25,6 +25,8 @@ buildscript {
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
         // spoon
         classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.0.2'
+        // protobuf
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.3'
 
         // tinker
         classpath("com.tencent.tinker:tinker-patch-gradle-plugin:${TINKER_VERSION}") {

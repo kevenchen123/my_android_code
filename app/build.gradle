@@ -1,9 +1,43 @@
+import java.text.SimpleDateFormat
+
 apply from: '../gradleutils/dependencies.gradle'
 
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
 apply plugin: 'jacoco-android'
 apply plugin: 'spoon'
+apply plugin: 'com.google.protobuf'
+
+
+static def buildTime() {
+    def df = new SimpleDateFormat("yyyy-MM-dd-HHmm")
+    df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"))
+    return df.format(new Date())
+}
+
+static def appName(sourceSets) {
+    def tmp = ""
+    sourceSets.find { set ->
+        if (set.name.startsWith("main")) {
+            tmp = set.res.getSrcDirs()[0]
+            return true
+        }
+    }
+    def resources = new XmlParser().parse(tmp.toString() + '/values/strings.xml')
+    resources.string.find { s ->
+        if (s.attribute("name") == "app_name") {
+            tmp = s.text()
+            return true
+        }
+    }
+    return tmp
+}
+
+ext {
+    host = project.hasProperty('API_HOST') ? "_" + API_HOST.replaceAll('"','') : "_pre"
+}
+
+//------------------------------------------------------------------
 
 android {
     useLibrary 'org.apache.http.legacy'
@@ -45,6 +79,8 @@ android {
         buildConfigField "String", "MESSAGE", "\"I am the base apk\""
         buildConfigField "String", "TINKER_ID", "\"${getTinkerIdValue()}\""
         buildConfigField "String", "PLATFORM", "\"all\""
+
+        buildConfigField("String", "API_HOST", project.hasProperty('API_HOST') ? API_HOST : '"pre"')
     }
 
     signingConfigs {
@@ -68,6 +104,13 @@ android {
             minifyEnabled true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), project.file('proguard-rules.pro')
+
+            //混淆文件为空，还需进一步需改
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    outputFileName = "${appName(sourceSets)}_" + "v${defaultConfig.versionName}" + host+ "_${buildTime()}" + ".apk"
+                }
+            }
         }
         debug {
             applicationIdSuffix '.debug'
@@ -84,6 +127,17 @@ android {
     productFlavors {
         "A360" { dimension "default" }            //    2	360  A360
         "Home" { dimension "default" }            //    26	官方	Home
+    }
+
+    sourceSets {
+        main {
+            /*res.srcDirs = ['res']
+            java.srcDirs = ['src']
+            manifest.srcFile 'AndroidManifest-common.xml'*/
+            proto {
+                srcDir 'src/main/protos/'
+            }
+        }
     }
 
     compileOptions {
@@ -230,6 +284,9 @@ dependencies {
     // log格式
     compile 'com.orhanobut:logger:2.2.0'
 
+    // protobuf
+    implementation 'com.google.protobuf.nano:protobuf-javanano:3.2.0rc2'
+
     // 热修复
     api("com.tencent.tinker:tinker-android-lib:${TINKER_VERSION}") { changing = true }
     // Maven local cannot handle transist dependencies.
@@ -254,6 +311,29 @@ spoon {
 
 void renameApk(fileName) {
     setProperty("archivesBaseName", fileName)
+}
+
+//--------------------------- protobuf ------------------------------
+
+protobuf {
+    // Configure the protoc executable
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.0.0-alpha-3'
+
+        generateProtoTasks {
+            all().each { task ->
+                task.builtins {
+                    remove java
+                    javanano {
+                        option "java_package=log_extension.proto|com.keven.proto.log"
+                        option "java_package=log.proto|com.keven.proto.log"
+                        option "java_package=dump.proto|com.keven.proto.dump"
+                        option "enum_style=java"
+                    }
+                }
+            }
+        }
+    }
 }
 
 //--------------------------- tinker ------------------------------
