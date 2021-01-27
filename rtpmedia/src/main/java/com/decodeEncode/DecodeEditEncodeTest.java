@@ -35,7 +35,9 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
-
+/*
+ * 源码 https://android.googlesource.com/platform/cts/+/jb-mr2-release/tests/tests/media/src/android/media/cts/DecodeEditEncodeTest.java
+ */
 /**
  * This test has three steps:
  * <ol>

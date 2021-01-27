@@ -9,6 +9,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Created by liangfeizc on 6/2/15.
@@ -24,6 +25,17 @@ public class StringUtils {
             result = result.replace(matcher.group(), capitalize(word));
         }
         return result;
+    }
+
+    /*
+     * 已为您将音量<phoneme py="tiao2">调</phoneme>至最高值30
+     * 过滤<>
+     */
+    public static String stringFilter(String str) throws PatternSyntaxException {
+        String regEx="<[^<>]*>";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.replaceAll("").trim();
     }
 
     public static String capitalize(final String word) {

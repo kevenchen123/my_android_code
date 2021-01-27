@@ -32,7 +32,9 @@ import java.util.Arrays;
 
 import javax.microedition.khronos.opengles.GL10;
 
-
+/*
+ * 源码https://android.googlesource.com/platform/cts/+/jb-mr2-release/tests/tests/media/src/android/media/cts/EncodeDecodeTest.java
+*/
 /**
  * Generates a series of video frames, encodes them, decodes them, and tests for significant
  * divergence from the original.

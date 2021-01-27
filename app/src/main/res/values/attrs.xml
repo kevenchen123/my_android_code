@@ -2,7 +2,6 @@
 <resources>
 
     <declare-styleable name="RatioImageView">
-
         <!-- 宽度是否根据src图片的比例来测量（高度已知） -->
         <attr name="riv_is_width_fix_drawable_size_ratio" format="boolean"/>
         <!-- 高度是否根据src图片的比例来测量（宽度已知） -->
@@ -31,7 +30,6 @@
         <attr name="miv_mask_color" format="color"/>
         <!--是否忽略图片的透明度，默认为true,透明部分不显示遮罩 -->
         <attr name="miv_is_ignore_alpha" format="boolean"/>
-
     </declare-styleable>
 
     <declare-styleable name="ShapeImageView">
@@ -124,16 +122,12 @@
 
     <!-- 设置view相关selector熟悉-->
     <declare-styleable name="View">
-
         <attr name="injectListener" format="boolean"/>
-
         <!--该属性已过时，被废弃-->
         <attr name="sel_background" format="color"/>
-
         <!-- 背景状态 -->
         <attr name="sel_background_pressed" format="reference|color"/>
         <attr name="sel_background_selected" format="reference|color"/>
-
         <!-- 背景形状 -->
         <attr name="sel_background_shape" format="enum">
             <enum name="rect" value="0"/>
@@ -147,14 +141,12 @@
         <attr name="sel_background_corner_topRight" format="dimension"/>
         <attr name="sel_background_corner_bottomLeft" format="dimension"/>
         <attr name="sel_background_corner_bottomRight" format="dimension"/>
-
         <!-- 背景边框默认状态 -->
         <attr name="sel_background_border_color" format="color"/>
         <attr name="sel_background_border_width" format="dimension"/>
         <!-- 背景边框状态 -->
         <attr name="sel_background_border_pressed" format="color"/>
         <attr name="sel_background_border_selected" format="color"/>
-
         <!-- ripple水波纹效果-->
         <attr name="sel_background_ripple" format="reference|color"/>
         <attr name="sel_background_ripple_mask" format="reference|color"/>
@@ -182,4 +174,54 @@
         <attr name="item_count" />
         <attr name="item_magnification" />
     </declare-styleable>
+
+    <declare-styleable name="WaveView">
+        <attr name="waveColor" format="color"/>        <!--波浪颜色-->
+        <attr name="waveBackgroundColor" format="color"/>        <!--波浪背景颜色-->
+        <attr name="speed" format="float"/>        <!--波浪速度-->
+        <!--正弦曲线相关-->
+        <attr name="amplitude" format="integer"/>        <!--波浪振幅-->
+        <attr name="quadrant" format="float"/>        <!--波浪相对于控件的位置-->
+        <attr name="frequency" format="float"/>        <!--波浪的频率-->
+    </declare-styleable>
+
+    <declare-styleable name="WaveView1">
+        <attr name="backgroudColor" format="color"/>
+        <attr name="progressColor" format="color"/>
+        <attr name="max" format="integer"/>
+        <attr name="progress" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="WaveView2">
+        <attr name="waveWaterLevel" format="float" />
+        <attr name="amplitudeRatio" format="float" />
+        <attr name="waveLengthRatio" format="float" />
+        <attr name="waveShiftRatio" format="float" />
+        <attr name="frontWaveColor" format="color" />
+        <attr name="behindWaveColor" format="color" />
+        <attr name="waveShape" format="enum">
+            <enum name="circle" value="0" />
+            <enum name="square" value="1" />
+        </attr>
+        <attr name="showWave" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="WaveLineView2">
+        <attr name="wlvBackgroundColor" format="color"/>            <!--backgroundColor            color of the view's background -->
+        <attr name="wlvLineColor" format="color"/>            <!--lineColor            color of the wave lines -->
+        <attr name="wlvThickLineWidth" format="dimension"/>            <!--thickLineWidth            the center thickLines' stroke width-->
+        <attr name="wlvFineLineWidth" format="dimension"/>            <!--fineLineWidth            the three fineLines's stroke width-->
+        <!--moveSpeed
+            the wave line animation move speed from left to right
+            you can use negative number to make the animation from right to left
+            the default value is 290F,the smaller, the faster-->
+        <attr name="wlvMoveSpeed" format="float"/>
+        <!--samplingSize
+            The number of sampling points, the higher the more fine,
+            but higher than a certain limit the naked eye is difficult
+            to distinguish, the higher the lower the efficiency of rendering -->
+        <attr name="wlvSamplingSize" format="integer"/>
+        <attr name="wlvSensibility" format="integer"/>            <!--sensibility                Sensitivity, the bigger the more sensitive [1,10]     the default value is 5-->
+    </declare-styleable>
+
 </resources>

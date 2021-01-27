@@ -7,8 +7,8 @@
     <string name="action_settings">Settings</string>
 
     <plurals name="orange">
-        <item quantity="one">Have an orange</item>
-        <item quantity="other">Have %d oranges</item>
+        <item quantity="one">Have an orange @@@</item>
+        <item quantity="other">Have %d oranges ###</item>
     </plurals>
 
     <string name="qr_code_scan">请扫描二维码</string>

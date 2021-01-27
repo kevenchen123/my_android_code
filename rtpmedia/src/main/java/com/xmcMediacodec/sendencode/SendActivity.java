@@ -22,7 +22,7 @@ import com.xmcMediacodec.androidencode.AvcEncoder;
 import com.xmcMediacodec.receivedecode.R;
 
 /*
- * https://github.com/xmc1715499699/MediaCodec_rtp_send
+ * 参考 https://github.com/xmc1715499699/MediaCodec_rtp_send
  */
 public class SendActivity extends Activity implements Callback, PreviewCallback {
 

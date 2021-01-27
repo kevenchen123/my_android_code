@@ -23,8 +23,7 @@ import android.view.View;
 import com.xmcMediacodec.receivedecode.R;
 
 /*
- * https://github.com/mstorsjo/android-decodeencodetest
- * https://android.googlesource.com/platform/cts/+/jb-mr2-release/tests/tests/media/src/android/media/cts/ExtractDecodeEditEncodeMuxTest.java
+ * 参考 https://github.com/mstorsjo/android-decodeencodetest
  */
 public class EncodeDecodeActivity extends Activity implements View.OnClickListener {
     @Override

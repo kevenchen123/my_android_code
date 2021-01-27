@@ -1,7 +1,9 @@
 package com.keven.api;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.keven.retrofit.model.POIbean;
 import com.keven.utils.LogUtils;
 import com.keven.utils.SystemPropertiesProxy;
+import com.keven.utils.hook.HookHelper;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.io.IOException;
@@ -36,6 +39,13 @@ import com.cwj.fataar.Test;
 
 
 public class AndroidApiActivity extends AppCompatActivity implements View.OnClickListener {
+
+    // 这个方法比onCreate调用早; 在这里Hook比较好.
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        HookHelper.hookActivityManager();
+        super.attachBaseContext(newBase);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

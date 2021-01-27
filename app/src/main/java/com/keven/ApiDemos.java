@@ -30,6 +30,7 @@ import com.keven.touchevent.TouchEventActivity;
 import com.keven.utils.LogUtils;
 import com.keven.webview.WebActivity;
 import com.keven.widget.activity.CustomWidgetActivity;
+import com.keven.widget.activity.WaveActivity;
 import com.keven.widget.activity.WidgetTestActivity;
 import com.xmcMediacodec.receivedecode.ReceiveActivity;
 import com.xmcMediacodec.sendencode.SendActivity;
@@ -41,12 +42,13 @@ public class ApiDemos extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String nameData[ ]={"SystemAPI", "Widget", "Custom Widget", "RsaEncrypt", "FragmentPager", "TouchEvent", "DragWindow",
+        String nameData[ ]={"SystemAPI", "Widget", "WaveWidget", "Custom Widget", "RsaEncrypt", "FragmentPager", "TouchEvent", "DragWindow",
                  "ScrollPicker", "Nexus & HttpServer", "Encode & Decode", "RTP sender", "RTP receiver", "QRcode", "Camera & Album",
                  "GraphicLock", "SocketIO", "Slidr", "HotFix", "WebView"};
         Intent intentData[ ]={
                 new Intent(this, AndroidApiActivity.class),
                 new Intent(this, WidgetTestActivity.class),
+                new Intent(this, WaveActivity.class),
                 new Intent(this, CustomWidgetActivity.class),
                 new Intent(this, EncryptActivity.class),
                 new Intent(this, FragmentPagerActivity.class),
@@ -63,7 +65,7 @@ public class ApiDemos extends ListActivity {
                 new Intent(this, SocketIOActivity.class),
                 new Intent(this, SlidrActivity.class),
                 new Intent(this, HotfixActivity.class),
-                WebActivity.getStartIntent(this, "hello", /*"file:///android_asset/www/default.html"*//*"http://m.amap.com/"*/"http://www.bing.com") };
+                WebActivity.getStartIntent(this, "hello", "file:///android_asset/www/index2.html"/*"file:///android_asset/www/default.html"*//*"http://www.bing.com"*/) };
 
         List<Map<String, Object>> myData = new ArrayList<>();
         for (int i = 0; i < nameData.length; i++) {

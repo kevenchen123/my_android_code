@@ -108,7 +108,7 @@ android {
             //混淆文件为空，还需进一步需改
             applicationVariants.all { variant ->
                 variant.outputs.all { output ->
-                    outputFileName = "${appName(sourceSets)}_" + "v${defaultConfig.versionName}" + host+ "_${buildTime()}" + ".apk"
+                    outputFileName = "${appName(sourceSets)}_" + "v${defaultConfig.versionName}" + host+ /*"_${buildTime()}" +*/ ".apk"
                 }
             }
         }

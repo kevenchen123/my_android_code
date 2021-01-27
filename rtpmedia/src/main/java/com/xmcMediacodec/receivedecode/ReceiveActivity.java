@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /*
- * https://github.com/xmc1715499699/MediaCodec_rtp_receive
+ * 参考 https://github.com/xmc1715499699/MediaCodec_rtp_receive
  */
 public class ReceiveActivity extends Activity {
     @Override

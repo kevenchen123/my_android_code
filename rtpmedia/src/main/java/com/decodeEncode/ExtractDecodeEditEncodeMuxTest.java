@@ -40,9 +40,11 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.LinkedList;
 
 import com.xmcMediacodec.receivedecode.R;
-
+/*
+ * 源码 https://android.googlesource.com/platform/cts/+/jb-mr2-release/tests/tests/media/src/android/media/cts/ExtractDecodeEditEncodeMuxTest.java
+ *  在 sdcard 目录下产生文件 cts-media-ExtractDecodeEditEncodeMuxTest-2131623940-video-1280x720-audio.mp4
+ */
 /**
- * 在 sdcard 目录下产生文件 cts-media-ExtractDecodeEditEncodeMuxTest-2131623940-video-1280x720-audio.mp4
  * Test for the integration of MediaMuxer and MediaCodec's encoder.
  *
  * <p>It uses MediaExtractor to get frames from a test stream, decodes them to a surface, uses a

@@ -19,6 +19,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewOutlineProvider;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import com.keven.utils.PermissionUtil;
 import com.keven.utils.PictureUtils;
 import com.keven.widget.AutoLoadImageView;
 import com.keven.widget.GlideView;
+import com.keven.widget.MarqueeTextView;
 import com.keven.widget.blurlibrary.BitmapBlur;
 import com.keven.widget.blurlibrary.EasyBlur;
 
@@ -40,7 +42,12 @@ public class WidgetTestActivity extends AppCompatActivity implements TextureView
 
     @BindView(R.id.iv_cover)
     AutoLoadImageView iv_cover;
-    @BindView(R.id.plurals_text) TextView plurals_text;
+    @BindView(R.id.plurals_text)
+    MarqueeTextView plurals_text;
+    @BindView(R.id.marquee)
+    Button plurals_change;
+
+    boolean isMarquee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +57,12 @@ public class WidgetTestActivity extends AppCompatActivity implements TextureView
         ButterKnife.bind(this);
 
         iv_cover.setImageUrl("http://pic1.win4000.com/wallpaper/5/54055707675cb.jpg");
+
         plurals_text.setText(getResources().getQuantityString(R.plurals.orange, 10, 10));
+        plurals_change.setOnClickListener(view -> {
+            isMarquee = !isMarquee;
+            plurals_text.setSingleLine(isMarquee);
+        });
 
         ((GlideView)findViewById(R.id.glide_view)).setUrl("http://pic1.win4000.com/wallpaper/5/54055707675cb.jpg");
 
@@ -63,7 +75,6 @@ public class WidgetTestActivity extends AppCompatActivity implements TextureView
         finish();
         return true;
     }
-
 
     //-------------------------------------------------------
 
@@ -86,36 +97,40 @@ public class WidgetTestActivity extends AppCompatActivity implements TextureView
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture arg0, int arg1, int arg2) {
         mCamera = Camera.open();
-        Camera.Size previewSize = mCamera.getParameters().getPreviewSize();
-        Log.d("TAG",  ">>"+previewSize.width + "#" + previewSize.height);
-        myTexture.setLayoutParams(new LinearLayout.LayoutParams(previewSize.width/2, previewSize.height/2));
-        try {
-            mCamera.setPreviewTexture(arg0);
-        } catch (IOException t) {
-        }
-        mCamera.startPreview();
-
-        myTexture.setAlpha(1.0f);
-        myTexture.setRotation(0.0f);
-        myTexture.setClipToOutline(true);//开启裁剪
-        myTexture.setOutlineProvider(new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View view, Outline outline) {
-                Rect rect = new Rect();
-                view.getGlobalVisibleRect(rect);
-                Rect selfRect = new Rect(0, 0, rect.right - rect.left + 100, rect.bottom - rect.top);
-                outline.setRoundRect(selfRect, 100);
+        if (mCamera != null) {
+            Camera.Size previewSize = mCamera.getParameters().getPreviewSize();
+            Log.d("TAG",  ">>"+previewSize.width + "#" + previewSize.height);
+            myTexture.setLayoutParams(new LinearLayout.LayoutParams(previewSize.width/2, previewSize.height/2));
+            try {
+                mCamera.setPreviewTexture(arg0);
+            } catch (IOException t) {
             }
-        });
-        /*Matrix matrix = new Matrix();
-        matrix.setScale(0.5f, 0.5f, 0, 0);
-        myTexture.setTransform(matrix);*/
+            mCamera.startPreview();
+
+            myTexture.setAlpha(1.0f);
+            myTexture.setRotation(0.0f);
+            myTexture.setClipToOutline(true);//开启裁剪
+            myTexture.setOutlineProvider(new ViewOutlineProvider() {
+                @Override
+                public void getOutline(View view, Outline outline) {
+                    Rect rect = new Rect();
+                    view.getGlobalVisibleRect(rect);
+                    Rect selfRect = new Rect(0, 0, rect.right - rect.left + 100, rect.bottom - rect.top);
+                    outline.setRoundRect(selfRect, 100);
+                }
+            });
+            /*Matrix matrix = new Matrix();
+            matrix.setScale(0.5f, 0.5f, 0, 0);
+            myTexture.setTransform(matrix);*/
+        }
     }
 
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture arg0) {
-        mCamera.stopPreview();
-        mCamera.release();
+        if (mCamera != null) {
+            mCamera.stopPreview();
+            mCamera.release();
+        }
         return true;
     }
 

@@ -15,11 +15,23 @@
             android:layout_height="100dp"
             android:background="@android:color/darker_gray" />
 
-        <TextView
-            android:id="@+id/plurals_text"
-            android:text="@plurals/orange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/marquee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="change"/>
+
+            <com.keven.widget.MarqueeTextView
+                android:id="@+id/plurals_text"
+                android:text="@plurals/orange"
+                android:textSize="20sp"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <com.keven.widget.GlideView
             android:id="@+id/glide_view"

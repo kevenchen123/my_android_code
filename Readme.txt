@@ -15,23 +15,29 @@ Widget
     GildeView 缓存图片再draw
     GridSpacingItemDecoration
     JustifyTextView 中文对齐
+    MarqueeTextView 支持全部跑马灯
+    NoInsertionEditText 禁止输入框复制粘贴
     PressImageView 点击时显示明暗变化(滤镜效果)的ImageView
     RoundedBackgroundSpan 富文本圆角背景色
     SlideLinearLayout 滑动LinearLayout
+    WrapContentHeightViewPager 注意ViewPager写wrap_content是无效的
     plurals 文字
 
 Utils
     executor 线程池
+    hook 动态代理绑定安卓生命周期
     mail Java发邮件
     ACache 利用cache目录做的缓存控制
     AndroidComponentUtil  查控应用，跳转(电话、设置)，检查应用是否安装，应用是否在前台，是否是小米UI
     ApachePoiUtil word文档阅读
     BaseActivity 含回退逻辑的AppCompatActivity
+    Caller 方便多种线程调用的工具类
     Clock 系统时间
+    CompactAlgorithm 压缩zip
     CrashHandler 异常捕获
     CustomTabsHelper
     DataCleanUtil  清除缓存工具类
-    DisplayUtils 分辨率转换，屏幕保亮，屏解锁，软键盘，导航栏高度，状态栏颜色高度，设置Editetxt Hint，设置TextView光标
+    DisplayUtils 分辨率转换，屏幕保亮，屏解锁，软键盘，导航栏高度，状态栏颜色高度，设置Editetxt Hint，设置TextView光标，全屏
     DocumentDownloadHelper 用DownloadManager下载文件
     FileMd5Utils 获得文件的md5值
     FingerprintUtil 指纹识别工具类
